@@ -11,5 +11,6 @@ namespace Kingpim.DAL.Models
         public virtual Category Category { get; set; }
         public int CategoryId { get; set; }
         public List<Product> Products { get; set; }
+        public bool IsPublished { get; set; }
     }
 }

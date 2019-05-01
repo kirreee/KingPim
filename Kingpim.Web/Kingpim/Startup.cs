@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Kingpim.DAL.Models;
 using Kingpim.Services.Helpers;
+using Kingpim.Services.Interfaces;
+using Kingpim.Services.Services;
 
 namespace Kingpim
 {
@@ -40,10 +42,13 @@ namespace Kingpim
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddTransient<ICatalogRepository, CatalogRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -86,9 +91,6 @@ namespace Kingpim
                 var Email = Configuration.GetSection("AdminLogin")["UserEmail"];
                 var Password = Configuration.GetSection("AdminLogin")["UserPassword"];
                 Task.WaitAll(user.CreateSuperAdmin(Email, Password));
-
-                var getAdmin = userManager.FindByEmailAsync(Email);
-                Task.WaitAll(userManager.UpdateAsync(getAdmin.Result));
             }
         }
     }

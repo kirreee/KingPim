@@ -7,13 +7,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kingpim.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
+        public DbSet<Catalog> Catalogs { get; set; }
         public DbSet<Kingpim.DAL.Models.Attribute>Attributes { get; set; }
         public DbSet<AttributeGroup> AttributeGroups { get; set; }
         public DbSet<Category> Categories { get; set; }

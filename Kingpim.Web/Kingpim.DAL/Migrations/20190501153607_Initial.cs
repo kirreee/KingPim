@@ -82,7 +82,7 @@ namespace Kingpim.DAL.Migrations
                     LastModified = table.Column<DateTime>(nullable: false),
                     LastModifiedBy = table.Column<string>(nullable: true),
                     Version = table.Column<int>(nullable: false),
-                    IsPublish = table.Column<bool>(nullable: false),
+                    IsPublished = table.Column<bool>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -136,8 +136,8 @@ namespace Kingpim.DAL.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -181,8 +181,8 @@ namespace Kingpim.DAL.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -224,7 +224,8 @@ namespace Kingpim.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    CatalogId = table.Column<int>(nullable: false)
+                    CatalogId = table.Column<int>(nullable: false),
+                    IsPublished = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -244,7 +245,8 @@ namespace Kingpim.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    CategoryId = table.Column<int>(nullable: false)
+                    CategoryId = table.Column<int>(nullable: false),
+                    IsPublished = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -265,7 +267,8 @@ namespace Kingpim.DAL.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     SubcategoryId = table.Column<int>(nullable: false),
-                    ReadOnlyAttributeId = table.Column<int>(nullable: false)
+                    ReadOnlyAttributeId = table.Column<int>(nullable: false),
+                    IsPublished = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -321,7 +324,7 @@ namespace Kingpim.DAL.Migrations
                     FileName = table.Column<string>(nullable: true),
                     FileType = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    IsPublish = table.Column<bool>(nullable: false),
+                    IsPublished = table.Column<bool>(nullable: false),
                     IsMainFile = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

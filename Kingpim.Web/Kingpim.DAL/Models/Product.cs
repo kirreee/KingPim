@@ -13,5 +13,6 @@ namespace Kingpim.DAL.Models
         public List<File> Files { get; set; }
         public virtual ReadOnlyAttribute ReadOnlyAttribute { get; set; }
         public int ReadOnlyAttributeId { get; set; }
+        public bool IsPublished { get; set; }
     }
 }

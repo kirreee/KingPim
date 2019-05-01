@@ -11,5 +11,6 @@ namespace Kingpim.DAL.Models
         public List<Subcategory>Subcategories { get; set; }
         public virtual Catalog Catalog { get; set; }
         public int CatalogId { get; set; }
+        public bool IsPublished { get; set; }
     }
 }

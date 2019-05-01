@@ -18,4 +18,9 @@
     <ProjectReference Include="..\Kingpim.Services\Kingpim.Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Api\" />
+  </ItemGroup>
+
 </Project>

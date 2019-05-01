@@ -13,7 +13,7 @@ namespace Kingpim.DAL.Models
         public string FileName { get; set; }
         public string FileType { get; set; }
         public DateTime CreationDate { get; set; }
-        public bool IsPublish { get; set; }
+        public bool IsPublished { get; set; }
         public bool IsMainFile { get; set; }
     }
 }

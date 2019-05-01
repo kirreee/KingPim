@@ -10,7 +10,7 @@ namespace Kingpim.DAL.Models
         public DateTime LastModified { get; set; }
         public string LastModifiedBy { get; set; }
         public int Version { get; set; }
-        public bool IsPublish { get; set; }
+        public bool IsPublished { get; set; }
         public DateTime CreationDate { get; set; }
     }
 }

@@ -10,5 +10,7 @@ namespace Kingpim.DAL.Models
         public string Name { get; set; }
         public List<Category> Categories { get; set; }
         public DateTime CreationDate { get; set; }
+        public virtual ApplicationUser User { get; set; }
+        public string UserId { get; set; }
     }
 }

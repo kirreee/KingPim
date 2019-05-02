@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kingpim.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190501191845_Added_CreationDate_To_CatalogModel")]
-    partial class Added_CreationDate_To_CatalogModel
+    [Migration("20190502182416_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -135,7 +135,11 @@ namespace Kingpim.DAL.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Catalogs");
                 });
@@ -376,6 +380,13 @@ namespace Kingpim.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Kingpim.DAL.Models.Catalog", b =>
+                {
+                    b.HasOne("Kingpim.DAL.Models.ApplicationUser", "User")
+                        .WithMany("Catalogs")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Kingpim.DAL.Models.Category", b =>

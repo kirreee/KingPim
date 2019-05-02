@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Kingpim.Services.Dtos;
 using Kingpim.Services.Interfaces;
@@ -30,35 +31,60 @@ namespace Kingpim.Api
         [HttpPost, Route("CreateCatalog")]
         public HttpStatusCode CreateCatalog(CreateCatalogDto catalog)
         {
-            var response = _catalogRepository.CreateCatalog(catalog);
-            if(response == HttpStatusCode.OK)
+            string userId =  User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (string.IsNullOrEmpty(userId))
             {
-                return HttpStatusCode.OK;
-            }
-            
-            if(response == HttpStatusCode.InternalServerError)
-            {
-                return HttpStatusCode.InternalServerError;
+                return HttpStatusCode.Unauthorized;
             }
 
-            return HttpStatusCode.NotFound;
+            var response = _catalogRepository.CreateCatalog(catalog, userId);
+            switch (response)
+            {
+                case HttpStatusCode.OK:
+                    return HttpStatusCode.OK;
+                case HttpStatusCode.InternalServerError:
+                    return HttpStatusCode.InternalServerError;
+                default:
+                    return HttpStatusCode.NotFound;
+            }
+        }
+
+        [HttpGet, Route("GetCatalogById/{catalogId}")]
+        public ActionResult<CatalogViewModel> GetCatalogById(int catalogId)
+        {
+            return _catalogRepository.GetCatalogById(catalogId);
+        }
+
+        [HttpPost, Route("UpdateCatalog/{catalogId}")]
+        public HttpStatusCode UpdateCatalog(int catalogId, UpdateCatalogDto updateCatalogDto)
+        {
+            var response = _catalogRepository.UpdateCatalog(catalogId, updateCatalogDto);
+
+            switch (response)
+            {
+                case HttpStatusCode.OK:
+                    return HttpStatusCode.OK;
+                case HttpStatusCode.InternalServerError:
+                    return HttpStatusCode.InternalServerError;
+                default:
+                    return HttpStatusCode.NotFound;
+            }
         }
 
         [HttpDelete, Route("DeleteCatalog/{catalogId}")]
         public HttpStatusCode DeleteCatalog(int catalogId)
         {
             var response = _catalogRepository.DeleteCatalog(catalogId);
-            if(response == HttpStatusCode.OK)
-            {
-                return HttpStatusCode.OK;
-            }
 
-            if (response == HttpStatusCode.InternalServerError)
+            switch (response)
             {
-                return HttpStatusCode.InternalServerError;
+                case HttpStatusCode.OK:
+                    return HttpStatusCode.OK;
+                case HttpStatusCode.InternalServerError:
+                    return HttpStatusCode.InternalServerError;
+                default:
+                    return HttpStatusCode.NotFound;
             }
-
-            return HttpStatusCode.NotFound;
         }
     }
 }

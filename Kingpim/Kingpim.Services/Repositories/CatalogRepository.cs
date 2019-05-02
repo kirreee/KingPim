@@ -4,6 +4,7 @@ using Kingpim.Services.Dtos;
 using Kingpim.Services.Factories;
 using Kingpim.Services.Interfaces;
 using Kingpim.Services.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +25,24 @@ namespace Kingpim.Services.Repositories
         public List<CatalogViewModel> GetAllCatalogs()
         {
             List<Catalog> catalogs = _ctx.Catalogs.ToList();
-            List<CatalogViewModel> catalogsViewModels = CatalogsFactory.CatalogToViewModel(catalogs);
+            List<CatalogViewModel> catalogViewModelsList = new List<CatalogViewModel>();
 
-            return catalogsViewModels;
+            catalogs.ForEach(catalog =>
+            {
+                ApplicationUser user = _ctx.Users.FirstOrDefault(f => f.Id == catalog.UserId);
+                catalogViewModelsList.Add(CatalogsFactory.CatalogToViewModel(catalog, user.UserName));
+            });
+
+            return catalogViewModelsList;
         }
 
-        public HttpStatusCode CreateCatalog(CreateCatalogDto catalogDto)
+        public HttpStatusCode CreateCatalog(CreateCatalogDto catalogDto, string userId)
         {
             Catalog catalog = CatalogsFactory.CatalogToDbo(catalogDto);
+            ApplicationUser user = _ctx.Users.FirstOrDefault(f => f.Id == userId);
+
+            catalog.User = user;
+            catalog.UserId = user.Id;
 
             try
             {
@@ -46,9 +57,42 @@ namespace Kingpim.Services.Repositories
             }
         }
 
+        public CatalogViewModel GetCatalogById(int catalogId)
+        {
+            Catalog catalog = _ctx.Catalogs.FirstOrDefault(f => f.Id == catalogId);
+            ApplicationUser User = _ctx.Users.FirstOrDefault(f => f.Id == catalog.UserId);
+
+            CatalogViewModel catalogViewModel = CatalogsFactory.CatalogToViewModel(catalog, User.UserName);
+
+            return catalogViewModel;
+        }
+
+        public HttpStatusCode UpdateCatalog(int catalogId, UpdateCatalogDto updateCatalogDto)
+        {
+            Catalog catalog = _ctx.Catalogs.FirstOrDefault(f => f.Id == catalogId);
+            if (catalog == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            catalog.Name = updateCatalogDto.Name;
+
+            try
+            {
+                _ctx.Entry(catalog).State = EntityState.Modified;
+                _ctx.SaveChanges();
+
+                return HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+        }
+
         public HttpStatusCode DeleteCatalog(int catalogId)
         {
-            if(catalogId <= 0)
+            if (catalogId <= 0)
             {
                 return HttpStatusCode.NotFound;
             }

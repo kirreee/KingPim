@@ -133,7 +133,11 @@ namespace Kingpim.DAL.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Catalogs");
                 });
@@ -374,6 +378,13 @@ namespace Kingpim.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Kingpim.DAL.Models.Catalog", b =>
+                {
+                    b.HasOne("Kingpim.DAL.Models.ApplicationUser", "User")
+                        .WithMany("Catalogs")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Kingpim.DAL.Models.Category", b =>

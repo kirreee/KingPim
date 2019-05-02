@@ -7,6 +7,6 @@ namespace Kingpim.DAL.Models
 {
     public class ApplicationUser : IdentityUser
     {
-
+        public ICollection<Catalog> Catalogs { get; set; }
     }
 }

@@ -10,7 +10,9 @@ namespace Kingpim.Services.Interfaces
     public interface ICatalogRepository
     {
         List<CatalogViewModel> GetAllCatalogs();
-        HttpStatusCode CreateCatalog(CreateCatalogDto catalog);
+        HttpStatusCode CreateCatalog(CreateCatalogDto catalog, string userId);
+        CatalogViewModel GetCatalogById(int catalogId);
+        HttpStatusCode UpdateCatalog(int catalogId, UpdateCatalogDto updateCatalogDto);
         HttpStatusCode DeleteCatalog(int catalogId);
     }
 }

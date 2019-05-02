@@ -8,4 +8,9 @@ namespace Kingpim.Services.Dtos
     {
         public string Name { get; set; }
     }
+
+    public class UpdateCatalogDto
+    {
+        public string Name { get; set; }
+    }
 }

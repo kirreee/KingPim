@@ -11,38 +11,17 @@ namespace Kingpim.Services.Factories
 {
     public static class CatalogsFactory
     {
-        public static List<CatalogViewModel> CatalogToViewModel(List<Catalog> catalogs)
+        public static CatalogViewModel CatalogToViewModel(Catalog catalog, string userName)
         {
-            var catalogsViewModel = new List<CatalogViewModel>();
-            var listOfCategoryNames = new List<string>();
-
-            catalogs.ForEach(catalog =>
+            var catalogViewModel = new CatalogViewModel()
             {
-                if (catalog.Categories != null)
-                {
-                    List<Category> categories = catalog.Categories.ToList();
-                    categories.ForEach(category =>
-                    {
-                        listOfCategoryNames.Add(category.Name);
-                    });
-                }
+                CatalogId = catalog.Id,
+                CatalogName = catalog.Name,
+                CreationDate = catalog.CreationDate,
+                UserName = userName
+            };
 
-                if(listOfCategoryNames.Count <= 0)
-                {
-                    listOfCategoryNames.Add("Har inga kategorier.");
-                }
-
-                catalogsViewModel.Add(new CatalogViewModel()
-                {
-                    CatalogId = catalog.Id,
-                    CatalogName = catalog.Name,
-                    CreationDate = catalog.CreationDate,
-                    CategoryNames = listOfCategoryNames
-                });
-
-            });
-
-            return catalogsViewModel;
+            return catalogViewModel;
         }
 
         public static Catalog CatalogToDbo(CreateCatalogDto catalogDto)

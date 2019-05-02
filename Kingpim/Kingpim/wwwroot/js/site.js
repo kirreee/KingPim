@@ -10,7 +10,8 @@ app.config(["$routeProvider",
         // Routing
         $routeProvider.
             when("/catalog", {
-                templateUrl: "/Templates/Catalog.html"
+                templateUrl: "/Templates/Catalog.html",
+                controller:"catalogCtrl"
             }).
             otherwise({
                 redirectTo: "/home"

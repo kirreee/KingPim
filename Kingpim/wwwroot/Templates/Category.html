@@ -1,0 +1,137 @@
+﻿<div class="container full-content-holder" ng-controller="catalogCtrl">
+
+    <!--Create a new catalog-->
+    <div class="row" ng-controller="createCategoryCtrl">
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="row text-dark pt-2 pb-2 ">
+                        <div class="col-md-12 text-center">
+                            <h4>Skapa en ny katalog</h4>
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="modal-body row text-dark">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Kategori namn</label>
+                                <input type="text" placeholder="Kategori namn..." class="form-control" ng-model="category.name" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Välj katalog</label>
+                                <select class="form-control" id="selectListCatalog">
+                                    <option ng-repeat="catalog in catalogList" id="{{catalog.catalogId}}">{{catalog.catalogName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Publisera kategori</label>
+                                <input type="checkbox" class="form-control" ng-checked="category.IsPublished" ng-model="category.IsPublished" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-success mt-2" ng-click="createCategory()">Skapa kategori</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Update catalog-->
+    <div class="modal fade" id="update-catalog-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="row text-dark pt-2 pb-2 ">
+                    <div class="col-md-12 text-center">
+                        <h4>Updatera kategori</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="modal-body row text-dark">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Kategori namn</label>
+                            <input type="text" placeholder="Kategori namn..." class="form-control" ng-model="categoryObj.CategoryName" />
+                        </div>
+                        <div class="form-group">
+                            <label>Publisera kategorin</label>
+                            <input type="checkbox" class="form-control" ng-checked="categoryObj.IsPublished" ng-model="categoryObj.IsPublished" />
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-sm btn-success mt-2" ng-click="updateCategory(categoryObj.CategoryId)">Updatera katalog</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Catalog List-->
+    <div class="row" id="catalog-list-row-holder">
+        <div class="col-md-12 text-center">
+            <h4>Kategorier</h4>
+        </div>
+        <div class="col-md-12">
+            <img src="/Media/icons/plus.png" class="img-fluid plus-icon" width="30" data-toggle="modal" data-target="#myModal" />
+            <span class="pl-2">Skapa ny kategori</span>
+        </div>
+        <table class="table table-striped table-dark mt-3 text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Kategori namn</th>
+                    <th scope="col">Katalog namn</th>
+                    <th scope="col">Kategorin skapades av</th>
+                    <th scope="col">Publiserad / inte publiserad</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="category in categories">
+                    <td>{{category.categoryName}}</td>
+                    <td>{{category.catalogName}}</td>
+                    <td>{{category.createdBy}}</td>
+                    <td ng-if="category.isPublished">Publiserad</td>
+                    <td ng-if="!category.isPublished">Inte publiserad</td>
+                    <td>
+                        <img src="../Media/icons/edit-icon.png" width="20" class="img-fluid icon" 
+                             data-toggle="modal" data-target="#update-catalog-modal" ng-click="getCategoryById(category.categoryId)"/>
+                       
+                        <img src="/Media/icons/trash-icon.png" width="20" class="img-fluid icon" ng-click="removeCatalog(category.categoryId)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .icon{
+        cursor:pointer;
+    }
+    .full-content-holder {
+        /*background-color: #0000007a;*/
+        padding: 3em;
+        border-radius: 2.5em;
+        color: #ffffff;
+    }
+
+    .plus-icon {
+        cursor: pointer;
+    }
+
+    #update-catalog-row-holder {
+        display: none;
+    }
+</style>

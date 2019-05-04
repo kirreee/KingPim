@@ -1,0 +1,144 @@
+﻿<div class="container full-content-holder">
+    
+    <!--Create a new catalog-->
+    <div class="row" ng-controller="createSubcategoryCtrl">
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="row text-dark pt-2 pb-2 ">
+                        <div class="col-md-12 text-center">
+                            <h4>Skapa en ny subcategory</h4>
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="modal-body row text-dark">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Subkategori namn</label>
+                                <input type="text" placeholder="Kategori namn..." class="form-control" ng-model="subcategory.name" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Välj Kategori</label>
+                                <select class="form-control" id="selectListCategory">
+                                    <option ng-repeat="category in categoriesList" id="{{category.categoryId}}">{{category.categoryName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Publisera subkategorin</label>
+                                <input type="checkbox" class="form-control" ng-checked="subcategory.IsPublished" ng-model="subcategory.IsPublished" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-success mt-2" ng-click="createSubcategory()">Skapa subkategorin</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Update catalog-->
+    <div class="modal fade" id="update-catalog-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="row text-dark pt-2 pb-2 ">
+                    <div class="col-md-12 text-center">
+                        <h4>Updatera subkategori</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="modal-body row text-dark">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Subkategori namn</label>
+                            <input type="text" placeholder="Kategori namn..." class="form-control" ng-model="subcategoryObj.SubcategoryName" />
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Välj Kategori</label>
+                                <select class="form-control" id="selectListCategories">
+                                    <option ng-repeat="category in categoriesList" id="{{category.categoryId}}">{{category.categoryName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Publisera subkategorin</label>
+                            <input type="checkbox" class="form-control" ng-checked="subcategoryObj.IsPublished" ng-model="subcategoryObj.IsPublished" />
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-sm btn-success mt-2" ng-click="updateSubcategory(subcategoryObj.SubcategoryId)">Updatera katalog</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Catalog List-->
+    <div class="row" id="catalog-list-row-holder">
+        <div class="col-md-12 text-center">
+            <h4>Subkategorier</h4>
+        </div>
+        <div class="col-md-12">
+            <img src="/Media/icons/plus.png" class="img-fluid plus-icon" width="30" data-toggle="modal" data-target="#myModal" />
+            <span class="pl-2">Skapa ny subkategori</span>
+        </div>
+        <table class="table table-striped table-dark mt-3 text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Subkategori namn</th>
+                    <th scope="col">Kategori namn</th>
+                    <th scope="col">Publiserad / inte publiserad</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="subcategory in subcategories">
+                    <td>{{subcategory.subcategoryName}}</td>
+                    <td>{{subcategory.categoryName}}</td>
+                    <td ng-if="subcategory.isPublished">Publiserad</td>
+                    <td ng-if="!subcategory.isPublished">Inte publiserad</td>
+                    <td>
+                        <img src="../Media/icons/edit-icon.png" width="20" class="img-fluid icon"
+                             data-toggle="modal" data-target="#update-catalog-modal" ng-click="getSubcategoryById(subcategory.subcategoryId)" />
+
+                        <img src="/Media/icons/trash-icon.png" width="20" class="img-fluid icon" ng-click="deleteSubcategory(subcategory.subcategoryId)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .icon {
+        cursor: pointer;
+    }
+
+    .full-content-holder {
+        /*background-color: #0000007a;*/
+        padding: 3em;
+        border-radius: 2.5em;
+        color: #ffffff;
+    }
+
+    .plus-icon {
+        cursor: pointer;
+    }
+
+    #update-catalog-row-holder {
+        display: none;
+    }
+</style>

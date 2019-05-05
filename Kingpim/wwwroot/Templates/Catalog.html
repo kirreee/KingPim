@@ -69,19 +69,21 @@
             <thead>
                 <tr>
                     <th scope="col">Katalog namn</th>
-                    <th scope="col">Katalog skapades</th>
                     <th scope="col">Katalog blev skapad av</th>
+                    <th scope="col">Katalog skapades</th>
+                    <th scope="col">Senast modiferad</th>
                     <th scope="col">Edit</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="catalog in catalogs">
                     <td>{{catalog.catalogName}}</td>
-                    <td>{{catalog.creationDate | date: 'yyyy-MM-dd'}}</td>
                     <td>{{catalog.userName}}</td>
+                    <td>{{catalog.creationDate | date: 'yyyy-MM-dd'}}</td>
+                    <td>{{catalog.lastModifiedDate | date: 'yyyy-MM-dd'}}</td>
                     <td class="icon-holder">
                         <img src="/Media/icons/edit-icon.png " width="20" data-toggle="modal" data-target="#update-catalog-modal" ng-click="getCatalogById(catalog.catalogId)" />
-                        <img src="/Media/icons/trash-icon.png" width="20" ng-click="removeCatalog(catalog.catalogId)"/>
+                        <img src="/Media/icons/trash-icon.png" width="20" ng-click="removeCatalog(catalog.catalogId)" />
                     </td>
                 </tr>
             </tbody>

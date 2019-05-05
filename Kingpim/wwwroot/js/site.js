@@ -21,6 +21,10 @@ app.config(["$routeProvider",
                 templateUrl: "/Templates/Subcategory.html",
                 controller: "subcategoryCtrl"
             }).
+            when("/attributeGroup", {
+                templateUrl: "/Templates/AttributeGroup.html",
+                controller: "attributeGroupCtrl"
+            }).
             otherwise({
                 redirectTo: "/home"
             });

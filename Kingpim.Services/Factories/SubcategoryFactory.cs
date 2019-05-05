@@ -16,7 +16,9 @@ namespace Kingpim.Services.Factories
                 SubcategoryId = subcategory.Id,
                 SubcategoryName = subcategory.Name,
                 IsPublished = subcategory.IsPublished,
-                CategoryName = categoryName
+                CategoryName = categoryName,
+                CreationDate = subcategory.CreationDate,
+                LastModifiedDate = subcategory.LastModifiedDate
                 
             };
 
@@ -28,7 +30,8 @@ namespace Kingpim.Services.Factories
             var model = new Subcategory()
             {
                 Name = createSubcategoryDto.SubcategoryName,
-                IsPublished = createSubcategoryDto.IsPublished
+                IsPublished = createSubcategoryDto.IsPublished,
+                CreationDate = DateTime.Now
             };
 
             return model;

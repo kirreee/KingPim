@@ -1,15 +1,10 @@
 ﻿app.controller('catalogCtrl', function ($scope, $http) {
 
-
-
-
-
     //Get all catalogs
     $http({
         method: 'GET',
         url: '/api/Catalogs/GetAllCatalogs'
     }).then(function successCallback(response) {
-        console.log('Categories:' + response.data);
         $scope.catalogs = response.data;
     }, function errorCallback(response) { });
 

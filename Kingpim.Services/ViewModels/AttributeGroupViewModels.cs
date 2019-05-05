@@ -4,12 +4,10 @@ using System.Text;
 
 namespace Kingpim.Services.ViewModels
 {
-    public class SubcategoryViewModel
+    public class AttributeGroupViewModel
     {
-        public int SubcategoryId { get; set; }
-        public string SubcategoryName { get; set; }
-        public string CategoryName { get; set; }
-        public bool IsPublished { get; set; }
+        public int AttributeGroupId { get; set; }
+        public string AttributeGroupName { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
     }

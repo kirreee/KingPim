@@ -77,6 +77,7 @@ namespace Kingpim.Services.Repositories
 
             Catalog catalog = _ctx.Catalogs.FirstOrDefault(f => f.Id == catalogId);
             catalog.Name = updateCatalogDto.Name;
+            catalog.LastModifiedDate = DateTime.Now;
 
             try
             {

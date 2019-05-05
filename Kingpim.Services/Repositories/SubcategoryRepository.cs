@@ -96,6 +96,7 @@ namespace Kingpim.Services.Repositories
 
             subcategory.IsPublished = updateSubcategoryDto.IsPublished;
             subcategory.Name = updateSubcategoryDto.SubcategoryName;
+            subcategory.LastModifiedDate = DateTime.Now;
 
             Category category = _ctx.Categories.FirstOrDefault(f => f.Id == updateSubcategoryDto.CategoryId);
             if(category != null)

@@ -12,5 +12,7 @@ namespace Kingpim.DAL.Models
         public int CategoryId { get; set; }
         public List<Product> Products { get; set; }
         public bool IsPublished { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
     }
 }

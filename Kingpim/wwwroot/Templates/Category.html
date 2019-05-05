@@ -93,6 +93,8 @@
                     <th scope="col">Kategori namn</th>
                     <th scope="col">Katalog namn</th>
                     <th scope="col">Kategorin skapades av</th>
+                    <th scope="col">Kategorin skapades</th>
+                    <th scope="col">Senast modiferad</th>
                     <th scope="col">Publiserad / inte publiserad</th>
                     <th scope="col">Edit</th>
                 </tr>
@@ -102,12 +104,14 @@
                     <td>{{category.categoryName}}</td>
                     <td>{{category.catalogName}}</td>
                     <td>{{category.createdBy}}</td>
+                    <td>{{category.creationDate | date: 'yyyy-MM-dd'}}</td>
+                    <td>{{category.lastModifiedDate | date: 'yyyy-MM-dd'}}</td>
                     <td ng-if="category.isPublished">Publiserad</td>
                     <td ng-if="!category.isPublished">Inte publiserad</td>
                     <td>
-                        <img src="../Media/icons/edit-icon.png" width="20" class="img-fluid icon" 
-                             data-toggle="modal" data-target="#update-catalog-modal" ng-click="getCategoryById(category.categoryId)"/>
-                       
+                        <img src="../Media/icons/edit-icon.png" width="20" class="img-fluid icon"
+                             data-toggle="modal" data-target="#update-catalog-modal" ng-click="getCategoryById(category.categoryId)" />
+
                         <img src="/Media/icons/trash-icon.png" width="20" class="img-fluid icon" ng-click="removeCatalog(category.categoryId)" />
                     </td>
                 </tr>

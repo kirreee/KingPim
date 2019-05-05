@@ -14,5 +14,7 @@ namespace Kingpim.DAL.Models
         public bool IsPublished { get; set; }
         public ApplicationUser User { get; set; }
         public string UserId { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
     }
 }

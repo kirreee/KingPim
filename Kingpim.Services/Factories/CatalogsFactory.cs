@@ -18,6 +18,7 @@ namespace Kingpim.Services.Factories
                 CatalogId = catalog.Id,
                 CatalogName = catalog.Name,
                 CreationDate = catalog.CreationDate,
+                LastModifiedDate = catalog.LastModifiedDate,
                 UserName = userName
             };
 

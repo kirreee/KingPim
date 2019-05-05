@@ -17,6 +17,8 @@ namespace Kingpim.Services.Factories
                 CategoryName = category.Name,
                 IsPublished = category.IsPublished,
                 CreatedBy = userName,
+                CreationDate = category.CreationDate,
+                LastModifiedDate = category.LastModifiedDate,
                 CatalogName = catalogName
             };
 
@@ -29,6 +31,7 @@ namespace Kingpim.Services.Factories
             {
                 Name = createCategoryDto.CategoryName,
                 IsPublished = createCategoryDto.IsPublished,
+                CreationDate = DateTime.Now
                 
             };
 

@@ -1,0 +1,117 @@
+﻿<div class="container full-content-holder">
+
+    <!--Create a new attribute group-->
+    <div class="row" ng-controller="createAttributeGroup">
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="row text-dark pt-2 pb-2 ">
+                        <div class="col-md-12 text-center">
+                            <h4>Skapa en ny attributegrupp</h4>
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="modal-body row text-dark">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Subkategori namn</label>
+                                <input type="text" placeholder="Attributegrupp namn..." class="form-control" ng-model="attributeGroup.name" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-success mt-2" ng-click="createAttributeGroup()">Skapa attributegrupp</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Stäng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Update Attribute group-->
+    <div class="modal fade" id="update-catalog-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="row text-dark pt-2 pb-2 ">
+                    <div class="col-md-12 text-center">
+                        <h4>Updatera attribute grupp</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="modal-body row text-dark">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Attributegrupp namn</label>
+                            <input type="text" placeholder="Kategori namn..." class="form-control" ng-model="attributeGroupObj.AttributeGroupName" />
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-sm btn-success mt-2" ng-click="updateAttributeGroup(attributeGroupObj.AttributeGroupId)">Updatera attributegrupp</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Stäng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Attribute group List-->
+    <div class="row" id="catalog-list-row-holder">
+        <div class="col-md-12 text-center">
+            <h4>Attribute grupper</h4>
+        </div>
+        <div class="col-md-12">
+            <img src="/Media/icons/plus.png" class="img-fluid plus-icon" width="30" data-toggle="modal" data-target="#myModal" />
+            <span class="pl-2">Skapa ny attributegrupp</span>
+        </div>
+        <table class="table table-striped table-dark mt-3 text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Attributegrupp namn</th>
+                    <th scope="col">Attribute skapades</th>
+                    <th scope="col">Senast modiferad</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="attributeGroup in attributeGroups">
+                    <td>{{attributeGroup.attributeGroupName}}</td>
+                    <td>{{attributeGroup.creationDate | date: 'yyyy-MM-dd'}}</td>
+                    <td>{{attributeGroup.lastModifiedDate | date: 'yyyy-MM-dd'}}</td>
+                    <td>
+                        <img src="../Media/icons/edit-icon.png" width="20" class="img-fluid icon"
+                             data-toggle="modal" data-target="#update-catalog-modal" ng-click="getAttributeGroupById(attributeGroup.attributeGroupId)" />
+
+                        <img src="/Media/icons/trash-icon.png" width="20" class="img-fluid icon" ng-click="deleteAttributeGroup(attributeGroup.attributeGroupId)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .icon {
+        cursor: pointer;
+    }
+
+    .full-content-holder {
+        /*background-color: #0000007a;*/
+        padding: 3em;
+        border-radius: 2.5em;
+        color: #ffffff;
+    }
+
+    .plus-icon {
+        cursor: pointer;
+    }
+
+    #update-catalog-row-holder {
+        display: none;
+    }
+</style>

@@ -75,6 +75,7 @@ namespace Kingpim.Services.Repositories
             Category category = _ctx.Categories.FirstOrDefault(f => f.Id == categoryId);
             category.Name = updateCategoryDto.CategoryName;
             category.IsPublished = updateCategoryDto.IsPublished;
+            category.LastModifiedDate = DateTime.Now;
             category.CatalogId = catalog.Id;
             category.Catalog = catalog;
 

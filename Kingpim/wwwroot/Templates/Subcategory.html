@@ -99,7 +99,9 @@
             <thead>
                 <tr>
                     <th scope="col">Subkategori namn</th>
-                    <th scope="col">Kategori namn</th>
+                    <th scope="col">Subkategori namn</th>
+                    <th scope="col">Subkategori skapades</th>
+                    <th scope="col">Senast modiferad</th>
                     <th scope="col">Publiserad / inte publiserad</th>
                     <th scope="col">Edit</th>
                 </tr>
@@ -108,6 +110,9 @@
                 <tr ng-repeat="subcategory in subcategories">
                     <td>{{subcategory.subcategoryName}}</td>
                     <td>{{subcategory.categoryName}}</td>
+                    <td>{{subcategory.creationDate | date: 'yyyy-MM-dd'}}</td>
+                    <td ng-if="subcategory.lastModifiedDate">{{subcategory.lastModifiedDate | date: 'yyyy-MM-dd'}}</td>
+                    <td ng-if="!subcategory.lastModifiedDate">-</td>
                     <td ng-if="subcategory.isPublished">Publiserad</td>
                     <td ng-if="!subcategory.isPublished">Inte publiserad</td>
                     <td>

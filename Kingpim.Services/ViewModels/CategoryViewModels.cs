@@ -11,5 +11,7 @@ namespace Kingpim.Services.ViewModels
         public string CatalogName { get; set; }
         public string CreatedBy { get; set; }
         public bool IsPublished { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
     }
 }

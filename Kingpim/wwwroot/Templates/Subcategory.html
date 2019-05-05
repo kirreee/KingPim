@@ -1,6 +1,6 @@
 ﻿<div class="container full-content-holder">
     
-    <!--Create a new catalog-->
+    <!--Create a new subcategory-->
     <div class="row" ng-controller="createSubcategoryCtrl">
         <div class="modal fade" id="myModal">
             <div class="modal-dialog modal-dialog-centered">
@@ -28,6 +28,16 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label>Välj attributegrupp</label>
+                                <select class="form-control" id="attributeGroupSelectList">
+                                    <option ng-repeat="attributeGroup in attributeGroups" id="{{attributeGroup.attributeGroupId}}">
+                                        {{attributeGroup.attributeGroupName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label>Publisera subkategorin</label>
                                 <input type="checkbox" class="form-control" ng-checked="subcategory.IsPublished" ng-model="subcategory.IsPublished" />
                             </div>
@@ -46,7 +56,7 @@
         </div>
     </div>
 
-    <!--Update catalog-->
+    <!--Update subcategory-->
     <div class="modal fade" id="update-catalog-modal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

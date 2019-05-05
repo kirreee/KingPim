@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Kingpim.DAL.Enums
 {
-    public enum Value
+    public enum ValueType
     {
         String = 1,
         Int = 2,

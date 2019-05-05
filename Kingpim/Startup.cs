@@ -48,6 +48,7 @@ namespace Kingpim
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddTransient<IAttributeRepository, AttributeRepository>();
             services.AddTransient<IAttributeGroupRepository, AttributeGroupRepository>();
             services.AddTransient<ISubcategoryRepository, SubcategoryRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();

@@ -1,5 +1,24 @@
 ﻿app.controller('subcategoryCtrl', function ($scope, $http) {
 
+    //Get all AttributeGroups.
+    $http({
+        method: 'GET',
+        url: '/api/AttributeGroups/GetAllAttributeGroups'
+    }).then(function successCallback(response) {
+       
+        $scope.attributeGroups = response.data;
+
+    }, function errorCallback(response) {
+
+        Swal.fire({
+            title: 'Server fel',
+            type: 'error'
+        }).then(function () {
+            location.reload();
+        });
+
+    });
+
     //Get all categories to selectList
     $http({
         method: 'GET',

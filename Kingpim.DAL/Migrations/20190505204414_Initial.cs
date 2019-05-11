@@ -53,7 +53,9 @@ namespace Kingpim.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -174,6 +176,7 @@ namespace Kingpim.DAL.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -194,6 +197,8 @@ namespace Kingpim.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
                     AttributeGroupId = table.Column<int>(nullable: false),
                     Value = table.Column<int>(nullable: false)
                 },
@@ -217,7 +222,9 @@ namespace Kingpim.DAL.Migrations
                     Name = table.Column<string>(nullable: true),
                     CatalogId = table.Column<int>(nullable: false),
                     IsPublished = table.Column<bool>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -244,7 +251,9 @@ namespace Kingpim.DAL.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false),
-                    IsPublished = table.Column<bool>(nullable: false)
+                    IsPublished = table.Column<bool>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -265,13 +274,41 @@ namespace Kingpim.DAL.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     IsPublished = table.Column<bool>(nullable: false),
-                    SubcategoryId = table.Column<int>(nullable: false)
+                    SubcategoryId = table.Column<int>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Products_Subcategories_SubcategoryId",
+                        column: x => x.SubcategoryId,
+                        principalTable: "Subcategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubcategoryAttributes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SubcategoryId = table.Column<int>(nullable: false),
+                    AttributeGroupId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubcategoryAttributes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubcategoryAttributes_AttributeGroups_AttributeGroupId",
+                        column: x => x.AttributeGroupId,
+                        principalTable: "AttributeGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SubcategoryAttributes_Subcategories_SubcategoryId",
                         column: x => x.SubcategoryId,
                         principalTable: "Subcategories",
                         principalColumn: "Id",
@@ -412,6 +449,16 @@ namespace Kingpim.DAL.Migrations
                 name: "IX_Subcategories_CategoryId",
                 table: "Subcategories",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubcategoryAttributes_AttributeGroupId",
+                table: "SubcategoryAttributes",
+                column: "AttributeGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubcategoryAttributes_SubcategoryId",
+                table: "SubcategoryAttributes",
+                column: "SubcategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -436,6 +483,9 @@ namespace Kingpim.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Files");
+
+            migrationBuilder.DropTable(
+                name: "SubcategoryAttributes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

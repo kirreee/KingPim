@@ -2,11 +2,11 @@
 
     $scope.createSubcategory = function () {
 
-        let selectedCategoryId = $('#selectListCategory :selected').attr('id');
         let inputModel = {
             'SubcategoryName': $scope.subcategory.name,
             'IsPublished': $scope.subcategory.IsPublished,
-            'CategoryId': selectedCategoryId
+            'CategoryId': $scope.selectedCategory,
+            'SubcategoiresIds': $scope.selectedAttributeGroups
         };
 
         $http({

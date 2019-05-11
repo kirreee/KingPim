@@ -16,32 +16,54 @@ namespace Kingpim.Services.Repositories
     public class SubcategoryRepository : ISubcategoryRepository
     {
         private readonly ApplicationDbContext _ctx;
-        public SubcategoryRepository(ApplicationDbContext context)
+        private readonly SubcategoryFactory _subcategoryFactory;
+        IAttributeGroupRepository _attributeGroupRepository;
+
+        public SubcategoryRepository(ApplicationDbContext context, SubcategoryFactory subcategoryFactory,
+           IAttributeGroupRepository attributeGroupRepository)
         {
             _ctx = context;
+            _subcategoryFactory = subcategoryFactory;
+            _attributeGroupRepository = attributeGroupRepository;
         }
 
         public List<SubcategoryViewModel> GetAllSubcategories()
         {
-            List<Subcategory> subcategories = _ctx.Subcategories.ToList();
-            List<SubcategoryViewModel> subcategoryViewModel = new List<SubcategoryViewModel>();
+
+            List<Subcategory> subcategories = _ctx.Subcategories
+                .Include(x => x.SubcategoryAttributes).ToList();
+
+            List<SubcategoryViewModel> subcategoryViewModels = new List<SubcategoryViewModel>();
 
             subcategories.ForEach(subcategory =>
             {
-                Category category = _ctx.Categories.FirstOrDefault(f => f.Id == subcategory.CategoryId);
-                subcategoryViewModel.Add(SubcategoryFactory.SubcategoryToViewModel(subcategory, category.Name));
+                subcategoryViewModels.Add(_subcategoryFactory.SubcategoryToViewModel(subcategory));
             });
 
-            return subcategoryViewModel;
+            return subcategoryViewModels;
         }
 
         public HttpStatusCode CreateSubcategory(CreateSubcategoryDto createSubcategoryDto)
         {
             Category category = _ctx.Categories.FirstOrDefault(f => f.Id == createSubcategoryDto.CategoryId);
-            Subcategory subcategory = SubcategoryFactory.SubcategoryToDbo(createSubcategoryDto);
+            Subcategory subcategory = _subcategoryFactory.SubcategoryToDbo(createSubcategoryDto);
 
             subcategory.Category = category;
             subcategory.CategoryId = category.Id;
+
+            List<SubcategoryAttribute> subcategoryAttributes = new List<SubcategoryAttribute>();
+            var attributeGroupsIds = createSubcategoryDto.SubcategoiresIds.ToList();
+
+            attributeGroupsIds.ForEach(id =>
+            {
+                subcategoryAttributes.Add(new SubcategoryAttribute()
+                {
+                    Subcategory = subcategory,
+                    AttributeGroupId = id,
+                });
+            });
+
+            subcategory.SubcategoryAttributes = subcategoryAttributes;
 
             try
             {
@@ -80,16 +102,22 @@ namespace Kingpim.Services.Repositories
 
         public SubcategoryViewModel GetSubcategoryById(int subcategoryId)
         {
-            Subcategory subcategory = _ctx.Subcategories.FirstOrDefault(f => f.Id == subcategoryId);
-            Category category = _ctx.Categories.FirstOrDefault(f => f.Id == subcategory.CategoryId);
 
-            return SubcategoryFactory.SubcategoryToViewModel(subcategory, category.Name);
+            Subcategory subcategory = _ctx.Subcategories.Include(x => x.SubcategoryAttributes).FirstOrDefault(f => f.Id == subcategoryId);
+            SubcategoryViewModel subcategoryViewModel = _subcategoryFactory.SubcategoryToViewModel(subcategory);
+
+            Category category = _ctx.Categories.FirstOrDefault(f => f.Id == subcategory.CategoryId);
+            subcategoryViewModel.CategoryName = category.Name;
+
+            return subcategoryViewModel;
         }
 
         public HttpStatusCode UpdateSubcategory(int subcategoryId, UpdateSubcategoryDto updateSubcategoryDto)
         {
-            Subcategory subcategory = _ctx.Subcategories.FirstOrDefault(f => f.Id == subcategoryId);
-            if(subcategory == null)
+            Subcategory subcategory = _ctx.Subcategories.Include(x => x.Category).Include(x => x.SubcategoryAttributes)
+                .FirstOrDefault(f => f.Id == subcategoryId);
+
+            if (subcategory == null)
             {
                 return HttpStatusCode.NotFound;
             }
@@ -99,11 +127,34 @@ namespace Kingpim.Services.Repositories
             subcategory.LastModifiedDate = DateTime.Now;
 
             Category category = _ctx.Categories.FirstOrDefault(f => f.Id == updateSubcategoryDto.CategoryId);
-            if(category != null)
+            if (category != null)
             {
-                subcategory.Category = category;
-                subcategory.CategoryId = category.Id;
+                subcategory.Category = subcategory.Category;
+                subcategory.CategoryId = subcategory.CategoryId;
             }
+
+            updateSubcategoryDto.SelectedAttributeGroupsIdsToDelete.ForEach(attributeGroupId =>
+            {
+                SubcategoryAttribute subcategoryAttribute = _ctx.SubcategoryAttributes.Include(x => x.AttributeGroup)
+                .FirstOrDefault(f => f.AttributeGroupId == attributeGroupId);
+
+                subcategory.SubcategoryAttributes.Remove(subcategoryAttribute);
+
+            });
+
+            if (updateSubcategoryDto.SelectedAttributeGroupsIdsToCreate != null)
+            {
+                updateSubcategoryDto.SelectedAttributeGroupsIdsToCreate.ForEach(attributeGroupId =>
+                {
+                    subcategory.SubcategoryAttributes.Add(new SubcategoryAttribute()
+                    {
+                        Subcategory = subcategory,
+                        AttributeGroupId = attributeGroupId,
+                    });
+                });
+            }
+
+            subcategory.SubcategoryAttributes = subcategory.SubcategoryAttributes;
 
             try
             {

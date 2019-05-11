@@ -250,6 +250,25 @@ namespace Kingpim.DAL.Migrations
                     b.ToTable("Subcategories");
                 });
 
+            modelBuilder.Entity("Kingpim.DAL.Models.SubcategoryAttribute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AttributeGroupId");
+
+                    b.Property<int>("SubcategoryId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttributeGroupId");
+
+                    b.HasIndex("SubcategoryId");
+
+                    b.ToTable("SubcategoryAttributes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -421,6 +440,19 @@ namespace Kingpim.DAL.Migrations
                     b.HasOne("Kingpim.DAL.Models.Category", "Category")
                         .WithMany("Subcategories")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Kingpim.DAL.Models.SubcategoryAttribute", b =>
+                {
+                    b.HasOne("Kingpim.DAL.Models.AttributeGroup", "AttributeGroup")
+                        .WithMany("SubcategoryAttributes")
+                        .HasForeignKey("AttributeGroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Kingpim.DAL.Models.Subcategory", "Subcategory")
+                        .WithMany("SubcategoryAttributes")
+                        .HasForeignKey("SubcategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -34,6 +34,9 @@ namespace Kingpim.Services.Repositories
                 attributeViewModels.Add(AttributeFactory.AttributeToViewModel(attribute, attributeGroup.Name));
             });
 
+
+
+
             return attributeViewModels;
         }
 

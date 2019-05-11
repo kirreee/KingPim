@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kingpim.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190503235551_Initial")]
+    [Migration("20190505204414_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,10 @@ namespace Kingpim.DAL.Migrations
 
                     b.Property<int>("AttributeGroupId");
 
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<DateTime?>("LastModifiedDate");
+
                     b.Property<string>("Name");
 
                     b.Property<int>("Value");
@@ -96,6 +100,10 @@ namespace Kingpim.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<DateTime?>("LastModifiedDate");
 
                     b.Property<string>("Name");
 
@@ -133,6 +141,8 @@ namespace Kingpim.DAL.Migrations
 
                     b.Property<DateTime>("CreationDate");
 
+                    b.Property<DateTime?>("LastModifiedDate");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("UserId");
@@ -152,7 +162,11 @@ namespace Kingpim.DAL.Migrations
 
                     b.Property<int>("CatalogId");
 
+                    b.Property<DateTime>("CreationDate");
+
                     b.Property<bool>("IsPublished");
+
+                    b.Property<DateTime?>("LastModifiedDate");
 
                     b.Property<string>("Name");
 
@@ -198,7 +212,11 @@ namespace Kingpim.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreationDate");
+
                     b.Property<bool>("IsPublished");
+
+                    b.Property<DateTime?>("LastModifiedDate");
 
                     b.Property<string>("Name");
 
@@ -219,7 +237,11 @@ namespace Kingpim.DAL.Migrations
 
                     b.Property<int>("CategoryId");
 
+                    b.Property<DateTime>("CreationDate");
+
                     b.Property<bool>("IsPublished");
+
+                    b.Property<DateTime?>("LastModifiedDate");
 
                     b.Property<string>("Name");
 
@@ -228,6 +250,25 @@ namespace Kingpim.DAL.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Subcategories");
+                });
+
+            modelBuilder.Entity("Kingpim.DAL.Models.SubcategoryAttribute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AttributeGroupId");
+
+                    b.Property<int>("SubcategoryId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttributeGroupId");
+
+                    b.HasIndex("SubcategoryId");
+
+                    b.ToTable("SubcategoryAttributes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -401,6 +442,19 @@ namespace Kingpim.DAL.Migrations
                     b.HasOne("Kingpim.DAL.Models.Category", "Category")
                         .WithMany("Subcategories")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Kingpim.DAL.Models.SubcategoryAttribute", b =>
+                {
+                    b.HasOne("Kingpim.DAL.Models.AttributeGroup", "AttributeGroup")
+                        .WithMany("SubcategoryAttributes")
+                        .HasForeignKey("AttributeGroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Kingpim.DAL.Models.Subcategory", "Subcategory")
+                        .WithMany("SubcategoryAttributes")
+                        .HasForeignKey("SubcategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

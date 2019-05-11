@@ -22,5 +22,6 @@ namespace Kingpim.Data
         public DbSet<Subcategory> Subcategories { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<AttributeValue> AttributeValues { get; set; }
+        public DbSet<SubcategoryAttribute> SubcategoryAttributes { get; set; }
     }
 }

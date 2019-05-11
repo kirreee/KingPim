@@ -1,5 +1,5 @@
-﻿<div class="container full-content-holder">
-    
+﻿<div class="container-fluid full-content-holder">
+
     <!--Create a new subcategory-->
     <div class="row" ng-controller="createSubcategoryCtrl">
         <div class="modal fade" id="myModal">
@@ -21,19 +21,15 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Välj Kategori</label>
-                                <select class="form-control" id="selectListCategory">
-                                    <option ng-repeat="category in categoriesList" id="{{category.categoryId}}">{{category.categoryName}}</option>
-                                </select>
+                                <select class="form-control" ng-options="category.categoryId as category.categoryName for
+                                        category in categoriesList" ng-model="selectedCategory"></select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Välj attributegrupp</label>
-                                <select class="form-control" id="attributeGroupSelectList">
-                                    <option ng-repeat="attributeGroup in attributeGroups" id="{{attributeGroup.attributeGroupId}}">
-                                        {{attributeGroup.attributeGroupName}}
-                                    </option>
-                                </select>
+                                <select class="form-control" ng-options="attributeGroup.attributeGroupId as attributeGroup.attributeGroupName for
+                                        attributeGroup in attributeGroups" ng-model="selectedAttributeGroups" multiple="multiple"></select>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -65,6 +61,16 @@
                         <h4>Updatera subkategori</h4>
                         <hr />
                     </div>
+                    <div class="col-md-12 text-center">
+                        <label><b>Dessa attributeGroups finns på den här kategori</b></label>
+                        <div class="row pt-4 pb-4">
+                            <div class="col-md-4 text-center" ng-repeat="attributeGroup in subcategoryObj.AttributeGroups">
+                                <p>{{attributeGroup.attributeGroupName}}</p>
+                                <button class="btn btn-sm btn-danger remove-attributeGroup-btn" ng-click="removeAttributeGroup($index, attributeGroup.attributeGroupId)">Ta bort</button>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
                 </div>
                 <div class="modal-body row text-dark">
                     <div class="col-md-12">
@@ -75,9 +81,15 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Välj Kategori</label>
-                                <select class="form-control" id="selectListCategories">
-                                    <option ng-repeat="category in categoriesList" id="{{category.categoryId}}">{{category.categoryName}}</option>
-                                </select>
+                                <select class="form-control" ng-options="category.categoryId as category.categoryName for
+                                        category in categoriesList" ng-model="selectedCategory"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Välj attributegrupp</label>
+                                <select class="form-control" ng-options="attributeGroup.attributeGroupId as attributeGroup.attributeGroupName for attributeGroup in attributeGroups"
+                                        ng-model="selectedAttributeGroups" multiple="multiple"></select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -96,7 +108,7 @@
         </div>
     </div>
 
-    <!--Catalog List-->
+    <!--Subcategories List-->
     <div class="row" id="catalog-list-row-holder">
         <div class="col-md-12 text-center">
             <h4>Subkategorier</h4>
@@ -109,7 +121,7 @@
             <thead>
                 <tr>
                     <th scope="col">Subkategori namn</th>
-                    <th scope="col">Subkategori namn</th>
+                    <th scope="col">AttributeGroups</th>
                     <th scope="col">Subkategori skapades</th>
                     <th scope="col">Senast modiferad</th>
                     <th scope="col">Publiserad / inte publiserad</th>
@@ -119,7 +131,9 @@
             <tbody>
                 <tr ng-repeat="subcategory in subcategories">
                     <td>{{subcategory.subcategoryName}}</td>
-                    <td>{{subcategory.categoryName}}</td>
+                    <td>
+                        <span class="pl-2 pr-2" ng-repeat="subAttribute in subcategory.attributeGroups track by $index">{{subAttribute.attributeGroupName}}</span>
+                    </td>
                     <td>{{subcategory.creationDate | date: 'yyyy-MM-dd'}}</td>
                     <td ng-if="subcategory.lastModifiedDate">{{subcategory.lastModifiedDate | date: 'yyyy-MM-dd'}}</td>
                     <td ng-if="!subcategory.lastModifiedDate">-</td>
@@ -128,7 +142,6 @@
                     <td>
                         <img src="../Media/icons/edit-icon.png" width="20" class="img-fluid icon"
                              data-toggle="modal" data-target="#update-catalog-modal" ng-click="getSubcategoryById(subcategory.subcategoryId)" />
-
                         <img src="/Media/icons/trash-icon.png" width="20" class="img-fluid icon" ng-click="deleteSubcategory(subcategory.subcategoryId)" />
                     </td>
                 </tr>
@@ -138,12 +151,15 @@
 </div>
 
 <style>
+    .remove-attributeGroup-btn {
+        width: 5em;
+    }
+
     .icon {
         cursor: pointer;
     }
 
     .full-content-holder {
-        /*background-color: #0000007a;*/
         padding: 3em;
         border-radius: 2.5em;
         color: #ffffff;

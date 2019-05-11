@@ -11,5 +11,6 @@ namespace Kingpim.DAL.Models
         public DateTime CreationDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
         public List<Kingpim.DAL.Models.Attribute> Attributes { get; set; }
+        public List<SubcategoryAttribute> SubcategoryAttributes { get; set; }
     }
 }

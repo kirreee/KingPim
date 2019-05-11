@@ -1,22 +1,21 @@
-﻿app.controller('subcategoryCtrl', function ($scope, $http) {
+﻿app.controller('subcategoryCtrl', ['$scope', '$http', 'SwalService', function ($scope, $http, SwalService) {
 
     //Get all AttributeGroups.
     $http({
         method: 'GET',
         url: '/api/AttributeGroups/GetAllAttributeGroups'
     }).then(function successCallback(response) {
-       
+
         $scope.attributeGroups = response.data;
 
     }, function errorCallback(response) {
 
-        Swal.fire({
-            title: 'Server fel',
-            type: 'error'
-        }).then(function () {
-            location.reload();
-        });
+        $scope.swalObj = {
+            'title': 'Server error!',
+            'type': 'error'
+        };
 
+        SwalService.swalShow();
     });
 
     //Get all categories to selectList
@@ -27,12 +26,12 @@
         $scope.categoriesList = response.data;
     }, function errorCallback(response) {
 
-        Swal.fire({
-            title: 'Server error!',
-            type: 'error'
-        }).then(function () {
-            location.reload();
-        });
+        $scope.swalObj = {
+            'title': 'Server error!',
+            'type': 'error'
+        };
+
+        SwalService.swalShow();
     });
 
     //Get all subcategories
@@ -40,17 +39,16 @@
         method: 'GET',
         url: '/api/Subcategories/GetAllSubcategories'
     }).then(function successCallback(response) {
-
         $scope.subcategories = response.data;
 
     }, function errorCallback(response) {
 
-        Swal.fire({
-            title: 'Server error!',
-            type: 'error'
-        }).then(function () {
-            location.reload();
-        });
+        $scope.swalObj = {
+            'title': 'Server error!',
+            'type': 'error'
+        };
+
+        SwalService.swalShow();
 
     });
 
@@ -61,28 +59,28 @@
             url: '/api/Subcategories/DeleteSubcategory/' + subcategoryId
         }).then(function successCallback(response) {
 
-            Swal.fire({
-                title: 'Subkategorin blev bortagen!',
-                type: 'success'
-            }).then(function () {
-                location.reload();
-            });
+            $scope.swalObj = {
+                'title': 'Subkategorin blev bortagen!',
+                'type': 'success'
+            };
+
+            SwalService.swalShow();
 
         }, function errorCallback(response) {
 
-            Swal.fire({
-                title: 'Gick inte ta bort subkategorin!',
-                type: 'error'
-            }).then(function () {
-                return;
-            });
+            $scope.swalObj = {
+                'title': 'Gick inte ta bort subkategorin!',
+                'type': 'error'
+            };
 
+            SwalService.swalShow($scope.swalObj);
         });
     };
 
 
     //Get subcategory by Id
     $scope.getSubcategoryById = function (subcategoryId) {
+
         $http({
             method: 'GET',
             url: '/api/Subcategories/GetSubcategoryById/' + subcategoryId
@@ -92,30 +90,49 @@
                 'SubcategoryId': response.data.subcategoryId,
                 'SubcategoryName': response.data.subcategoryName,
                 'CategoryName': response.data.categoryName,
-                'IsPublished': response.data.isPublished
+                'IsPublished': response.data.isPublished,
+                'AttributeGroups': response.data.attributeGroups
             };
 
         }, function errorCallback(response) {
 
-            Swal.fire({
-                title: 'Gick inte hitta subkategorin!',
-                type: 'error'
-            }).then(function () {
-                location.reload();
-            });
+            $scope.swalObj = {
+                'title': 'Gick inte hitta subkategorin!',
+                'type': 'error'
+            };
 
+            SwalService.swalShow($scope.swalObj);
         });
+    };
 
+
+    $scope.attributeGroupsIdsToDelte = [];
+
+    //Remove attributeGroup
+    $scope.removeAttributeGroup = function ($index, attributeGroupId) {
+
+        if (attributeGroupId === undefined) {
+            $scope.swalObj = {
+                'title': 'Gick inte hitta subkategorin!',
+                'type': 'error'
+            };
+
+            SwalService.swalShow($scope.swalObj);
+        }
+
+        $scope.subcategoryObj.AttributeGroups.splice($index, 1);
+        $scope.attributeGroupsIdsToDelte.push(attributeGroupId);
     };
 
     //Update subcategory
     $scope.updateSubcategory = function (subcategoryId) {
 
-        let categoryId = $('#selectListCategories :selected').attr('id');
         let inputModel = {
             'SubcategoryName': $scope.subcategoryObj.SubcategoryName,
             'IsPublished': $scope.subcategoryObj.IsPublished,
-            'CategoryId': categoryId
+            'CategoryId': $scope.selectedCategory,
+            'SelectedAttributeGroupsIdsToCreate': $scope.selectedAttributeGroups,
+            'SelectedAttributeGroupsIdsToDelete': $scope.attributeGroupsIdsToDelte
         };
 
         $http({
@@ -124,25 +141,22 @@
             data: inputModel
         }).then(function successCallback(response) {
 
-            Swal.fire({
-                title: 'Subkategorin är nu updaterad!',
-                type: 'success'
-            }).then(function () {
-                location.reload();
-            });
+            $scope.swalObj = {
+                'title': 'Subkategorin är nu updaterad!',
+                'type': 'success'
+            };
 
+            SwalService.swalShow($scope.swalObj);
 
         }, function errorCallback(response) {
 
-            Swal.fire({
-                title: 'Gick inte updatera subkategorin!',
-                type: 'error'
-            }).then(function () {
-                location.reload();
-            });
+            $scope.swalObj = {
+                'title': 'Gick inte updatera subkategorin!',
+                'type': 'error'
+            };
 
+            SwalService.swalShow($scope.swalObj);
         });
     };
 
-   
-});
+}]);

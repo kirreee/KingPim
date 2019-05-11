@@ -14,5 +14,6 @@ namespace Kingpim.DAL.Models
         public bool IsPublished { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
+        public List<SubcategoryAttribute> SubcategoryAttributes { get; set; }
     }
 }

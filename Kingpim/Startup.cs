@@ -17,6 +17,7 @@ using Kingpim.DAL.Models;
 using Kingpim.Services.Helpers;
 using Kingpim.Services.Interfaces;
 using Kingpim.Services.Repositories;
+using Kingpim.Services.Factories;
 
 namespace Kingpim
 {
@@ -48,6 +49,7 @@ namespace Kingpim
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddTransient<SubcategoryFactory, SubcategoryFactory>();
             services.AddTransient<IAttributeRepository, AttributeRepository>();
             services.AddTransient<IAttributeGroupRepository, AttributeGroupRepository>();
             services.AddTransient<ISubcategoryRepository, SubcategoryRepository>();

@@ -49,12 +49,17 @@ namespace Kingpim
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+
+            services.AddTransient<ProductFactory, ProductFactory>();
             services.AddTransient<SubcategoryFactory, SubcategoryFactory>();
+
+            services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IAttributeRepository, AttributeRepository>();
             services.AddTransient<IAttributeGroupRepository, AttributeGroupRepository>();
             services.AddTransient<ISubcategoryRepository, SubcategoryRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ICatalogRepository, CatalogRepository>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

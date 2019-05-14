@@ -1,6 +1,6 @@
 ﻿app.service('SwalService', function () {
 
-    //Success Swal
+    //Show swal with message.
     this.swalShow = function (swalObj) {
 
         Swal.fire({
@@ -12,6 +12,4 @@
 
         return;
     };
-
-
 });

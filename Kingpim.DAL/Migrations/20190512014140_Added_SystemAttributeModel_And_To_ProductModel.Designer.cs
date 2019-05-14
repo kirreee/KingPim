@@ -4,14 +4,16 @@ using Kingpim.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kingpim.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190512014140_Added_SystemAttributeModel_And_To_ProductModel")]
+    partial class Added_SystemAttributeModel_And_To_ProductModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,9 +289,7 @@ namespace Kingpim.DAL.Migrations
 
                     b.Property<string>("LastModifiedBy");
 
-                    b.Property<string>("VersioNumber");
-
-                    b.Property<int>("Version");
+                    b.Property<int>("VersioNumber");
 
                     b.HasKey("Id");
 

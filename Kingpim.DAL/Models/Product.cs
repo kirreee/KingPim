@@ -12,6 +12,8 @@ namespace Kingpim.DAL.Models
         public List<File> Files { get; set; }
         public virtual Subcategory Subcategory { get; set; }
         public int SubcategoryId { get; set; }
+        public virtual SystemAttribute SystemAttribute { get; set; }
+        public int SystemAttributeId { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
     }

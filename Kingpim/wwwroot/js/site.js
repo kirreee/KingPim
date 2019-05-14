@@ -29,6 +29,10 @@ app.config(["$routeProvider",
                 templateUrl: "/Templates/Attribute.html",
                 controller: "attributeCtrl"
             }).
+            when("/product", {
+                templateUrl: "/Templates/Product.html",
+                controller: "productCtrl"
+            }).
             otherwise({
                 redirectTo: "/home"
             });

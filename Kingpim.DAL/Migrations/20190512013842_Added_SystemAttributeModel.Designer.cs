@@ -4,14 +4,16 @@ using Kingpim.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kingpim.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190512013842_Added_SystemAttributeModel")]
+    partial class Added_SystemAttributeModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,13 +222,9 @@ namespace Kingpim.DAL.Migrations
 
                     b.Property<int>("SubcategoryId");
 
-                    b.Property<int>("SystemAttributeId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("SubcategoryId");
-
-                    b.HasIndex("SystemAttributeId");
 
                     b.ToTable("Products");
                 });
@@ -287,9 +285,7 @@ namespace Kingpim.DAL.Migrations
 
                     b.Property<string>("LastModifiedBy");
 
-                    b.Property<string>("VersioNumber");
-
-                    b.Property<int>("Version");
+                    b.Property<int>("VersioNumber");
 
                     b.HasKey("Id");
 
@@ -459,11 +455,6 @@ namespace Kingpim.DAL.Migrations
                     b.HasOne("Kingpim.DAL.Models.Subcategory", "Subcategory")
                         .WithMany("Products")
                         .HasForeignKey("SubcategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Kingpim.DAL.Models.SystemAttribute", "SystemAttribute")
-                        .WithMany()
-                        .HasForeignKey("SystemAttributeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

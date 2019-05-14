@@ -127,4 +127,46 @@
 
     };
 
+
+    //trigger File upload
+    $scope.triggerFileUpload = function () {
+        $('#fileUpload').click();
+    };
+
+    $scope.uploadFile = function (productId) {
+
+        var fd = new FormData();
+        var file = $('#fileUpload')[0].files[0];
+        fd.append('file', file);
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Products/FileUpload/' + productId,
+            data: fd,
+            contentType: false,
+            processData: false
+
+        }).then(function successCallback(response) {
+
+            $scope.swalObj = {
+                'title': 'Fil har laddats upp!',
+                'type': 'success'
+            };
+
+            SwalService.swalShow($scope.swalObj);
+
+        }, function errorCallback(response) {
+
+            $scope.swalObj = {
+                'title': 'Gick inte ladda upp filen!',
+                'type': 'error'
+            };
+
+            SwalService.swalShow($scope.swalObj);
+
+        });
+
+    };
+
+
 }]);

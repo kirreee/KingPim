@@ -1,6 +1,6 @@
 ﻿<div class="container-fluid full-content-holder">
 
-    <!--Create a new attribute-->
+    <!--Create a new product-->
     <div class="row" ng-controller="createProductCtrl">
         <div class="modal fade" id="myModal">
             <div class="modal-dialog modal-dialog-centered">
@@ -46,7 +46,7 @@
 
 
 
-    <!--Update Attribute group-->
+    <!--Update product-->
     <div class="modal fade" id="update-catalog-modal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -54,6 +54,17 @@
                     <div class="col-md-12 text-center">
                         <h4>Updatera produkt</h4>
                         <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center text-dark">
+                        <h6>Ladda upp fil / bild till produkten</h6>
+                        <img src="/Media/icons/upload.png" class="img-fluid upload-icon pt-2 pb-2" ng-click="triggerFileUpload()"/> 
+                        <hr />
+                        <div class="button-holder pt-2 pb-2">
+                            <button class="btn btn-sm btn-outline-success" ng-click="uploadFile(productObj.productId)">Ladda upp valda fil</button>
+                        </div>
+                        <input type="file" hidden id="fileUpload" />
                     </div>
                 </div>
                 <div class="modal-body row text-dark">
@@ -132,6 +143,12 @@
 </div>
 
 <style>
+    .upload-icon{
+        cursor:pointer;
+        margin:auto;
+        display:block;
+    }
+
     .icon {
         cursor: pointer;
     }

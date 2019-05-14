@@ -73,7 +73,7 @@ namespace Kingpim.Api
         [HttpGet, Route("GetProductById/{productId}")]
         public ProductViewModel GetProductById(int productId)
         {
-            if(productId <= 0)
+            if (productId <= 0)
             {
                 return null; //Todo: Do not return null.
             }
@@ -93,6 +93,27 @@ namespace Kingpim.Api
             }
 
             var response = _productRepository.DeleteProduct(productId);
+
+            switch (response)
+            {
+                case HttpStatusCode.OK:
+                    return HttpStatusCode.OK;
+                case HttpStatusCode.InternalServerError:
+                    return HttpStatusCode.InternalServerError;
+                default:
+                    return HttpStatusCode.NotFound;
+            }
+        }
+
+        [HttpPost, Route("FileUpload/{productId}")]
+        public HttpStatusCode FileUpload(IFormFile file, int productId)
+        {
+            if(productId <= 0)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            var response = _productRepository.FileUpload(file, productId);
 
             switch (response)
             {

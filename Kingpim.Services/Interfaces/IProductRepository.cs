@@ -1,5 +1,6 @@
 ﻿using Kingpim.Services.Dtos;
 using Kingpim.Services.ViewModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -14,5 +15,7 @@ namespace Kingpim.Services.Interfaces
         HttpStatusCode CreatProduct(CreateProductDto createProductDto);
         HttpStatusCode DeleteProduct(int productId);
         HttpStatusCode UpdateProduct(int productId, UpdateProductDto updateProductDto, string userId);
+        HttpStatusCode FileUpload(IFormFile file, int productId);
+
     }
 }

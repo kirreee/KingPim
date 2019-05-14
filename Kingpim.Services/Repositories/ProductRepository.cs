@@ -4,6 +4,7 @@ using Kingpim.Services.Dtos;
 using Kingpim.Services.Factories;
 using Kingpim.Services.Interfaces;
 using Kingpim.Services.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -152,6 +153,33 @@ namespace Kingpim.Services.Repositories
             }
 
             return HttpStatusCode.OK;
+        }
+
+        public HttpStatusCode FileUpload(IFormFile file, int productId)
+        {
+            Product product = _ctx.Products.FirstOrDefault(f => f.Id == productId);
+
+            var model = new File()
+            {
+                CreationDate = DateTime.Now,
+                FileName = file.FileName,
+                IsMainFile = false,
+                IsPublished = false,
+                Product = product,
+                ProductId = product.Id,
+            };
+
+            try
+            {
+                _ctx.Files.Add(model);
+                _ctx.SaveChanges();
+
+                return HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                return HttpStatusCode.InternalServerError;
+            }
         }
 
         public ProductViewModel GetProductById(int productId)

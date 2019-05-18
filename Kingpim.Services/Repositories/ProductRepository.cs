@@ -167,6 +167,8 @@ namespace Kingpim.Services.Repositories
                 IsPublished = false,
                 Product = product,
                 ProductId = product.Id,
+                FileType = file.ContentType
+
             };
 
             try
@@ -184,6 +186,7 @@ namespace Kingpim.Services.Repositories
 
         public ProductViewModel GetProductById(int productId)
         {
+
             Product product = _ctx.Products.FirstOrDefault(f => f.Id == productId);
 
             ProductViewModel productViewModel = _productFactory.ProductToViewModel(product);

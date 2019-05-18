@@ -7,6 +7,8 @@
     }).then(function successCallback(response) {
 
         $scope.productList = response.data;
+        
+
 
     }, function errorCallback(response) {
 
@@ -25,6 +27,7 @@
         method: 'GET',
         url: '/api/Subcategories/GetAllSubcategories'
     }).then(function successCallback(response) {
+
         $scope.subcategories = response.data;
 
 

@@ -14,5 +14,6 @@ namespace Kingpim.Services.ViewModels
         public bool IsPublished { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime? LastModified { get; set; }
+        public List<FileViewModel> Files { get; set; }
     }
 }

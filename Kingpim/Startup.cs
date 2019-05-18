@@ -49,10 +49,15 @@ namespace Kingpim
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
+            //Factories
             services.AddTransient<ProductFactory, ProductFactory>();
             services.AddTransient<SubcategoryFactory, SubcategoryFactory>();
 
+            //Helpers
+            services.AddTransient<FileUploadHelper, FileUploadHelper>();
+
+
+            //Repositories
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IAttributeRepository, AttributeRepository>();
             services.AddTransient<IAttributeGroupRepository, AttributeGroupRepository>();

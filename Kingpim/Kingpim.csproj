@@ -19,4 +19,9 @@
     <ProjectReference Include="..\Kingpim.Services\Kingpim.Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\FileUploads\" />
+  </ItemGroup>
+
 </Project>

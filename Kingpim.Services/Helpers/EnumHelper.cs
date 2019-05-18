@@ -42,7 +42,7 @@ namespace Kingpim.Services.Helpers
             return valueTypeViewModels;
         }
 
-        public static string EnumValueTypeToString (ValueType valueType)
+        public static string EnumValueTypeToString(ValueType valueType)
         {
             switch ((int)valueType)
             {
@@ -72,6 +72,48 @@ namespace Kingpim.Services.Helpers
                 case 4:
                     return ValueType.Double;
                 default: return ValueType.String;
+            }
+        }
+
+
+        public static List<MediaTypeViewModel> GetListOfMediatypes()
+        {
+            var valueTypeViewModels = new List<MediaTypeViewModel>
+            {
+                new MediaTypeViewModel()
+                {
+                    MediaType = "Manual"
+                },
+
+                new MediaTypeViewModel()
+                {
+                    MediaTypeTypeId = 2,
+                    MediaType = "Sparepart"
+                },
+
+                new MediaTypeViewModel()
+                {
+                    MediaTypeTypeId = 3,
+                    MediaType = "Other"
+                },
+
+            };
+
+            return valueTypeViewModels;
+        }
+
+        public static MediaType GetMediaType(int mediaTypeId)
+        {
+            switch (mediaTypeId)
+            {
+                case 1:
+                    return DAL.Enums.MediaType.Manual;
+                case 2:
+                    return DAL.Enums.MediaType.Sparepart;
+                case 3:
+                    return DAL.Enums.MediaType.Other;
+
+                default: return DAL.Enums.MediaType.Other;
             }
         }
     }

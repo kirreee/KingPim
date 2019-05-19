@@ -2,17 +2,20 @@
     function ($scope, attributeService, attributeGroupService) {
 
         //Get all AttributeGroups.
-        attributeGroupService.getAllAttributeGroups(function (data, statusCode) {
-            $scope.attributeGroups = response.data;
+        attributeGroupService.getAllAttributeGroups(function (data, responseMessage) {
 
-            if (statusCode !== 200) {
-                Swal.fire({
-                    title: 'Server fel',
-                    type: 'error'
-                }).then(function () {
-                    location.reload();
-                });
-            }
+           
+            $scope.attributeGroups = data;
+
+
+            //if (statusCode !== 200) {
+            //    Swal.fire({
+            //        title: 'Server fel',
+            //        type: 'error'
+            //    }).then(function () {
+            //        location.reload();
+            //    });
+            //}
         });
 
 

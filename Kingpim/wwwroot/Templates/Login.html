@@ -1,0 +1,46 @@
+﻿<div class="container" ng-controller="loginCtrl">
+    <div class="row" style="margin-top:10em;">
+        <div class="col-md-6 offset-3">
+            <form class="login-form row pt-3 pb-3 text-white">
+                <div class="col-md-12 text-center">
+                    <h4>Login</h4>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>E-postadress</label>
+                        <input type="email" class="form-control" required ng-model="email"/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Lösenord</label>
+                        <input type="password" class="form-control" required ng-model="password" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button class="login-btn" ng-click="login()">Logga in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .login-form {
+        background-color: #272626;
+        border-radius:1.5em;
+    }
+    .login-btn{
+        border-radius:25px;
+        background-color:#000000;
+        color:#ffffff;
+        border-color:rgba(0, 0, 0, 0.00);
+        cursor:pointer;
+        width:100%;
+    }
+    .login-btn:hover{
+        background-color:#ffffff;
+        color:#000000;
+    }
+</style>

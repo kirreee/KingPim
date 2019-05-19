@@ -1,14 +1,14 @@
 ﻿app.service('attributeGroupService', function ($http) {
 
     //Get all attributegGroups
-    this.getAllAttributeGroups = function (data, statusCode) {
+    this.getAllAttributeGroups = function (data, responseMessage) {
         $http({
             method: 'GET',
             url: '/api/AttributeGroups/GetAllAttributeGroups'
         }).then(function successCallback(response) {
             data(response.data);
         }, function errorCallback(response) {
-            statusCode(response.status);
+            responseMessage(response.status);
         });
     };
 

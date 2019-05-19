@@ -4,7 +4,7 @@
     this.getAllSubcategories = function (data) {
         $http({
             method: 'GET',
-            url: '/api/AttributeGroups/GetAllAttributeGroups'
+            url: '/api/Subcategories/GetAllSubcategories'
         }).then(function successCallback(response) {
             data(response.data);
         }, function errorCallback(response) { });
@@ -47,11 +47,13 @@
 
         $http({
             method: 'DELETE',
-            url: '/api/Subcategories/DeleteSubcategory/' + subcategoryId
+            url: '/api/Subcategories/DeleteSubcategory/' + subcateogryId
         }).then(function successCallback(response) {
             statusCode(response.status);
+            console.log(response);
         }, function errorCallback(response) {
             statusCode(response.status);
+            console.log(response);
         });
 
     };

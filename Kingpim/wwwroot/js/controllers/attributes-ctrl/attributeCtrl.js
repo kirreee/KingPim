@@ -2,31 +2,31 @@
     function ($scope, attributeService, valueTypeService, attributeGroupService) {
 
         //Get value List.
-        valueTypeService.getValueTypes(function (data, statusCode) {
+        valueTypeService.getValueTypes(function (data, statusMessage) {
             $scope.values = data;
 
-            if (statusCode !== 200) {
-                Swal.fire({
-                    title: 'Server fel',
-                    type: 'error'
-                }).then(function () {
-                    location.reload();
-                });
-            }
+            //if (statusCode !== 200) {
+            //    Swal.fire({
+            //        title: 'Server fel',
+            //        type: 'error'
+            //    }).then(function () {
+            //        location.reload();
+            //    });
+            //}
         });
 
         //Get all AttributeGroups.
         attributeGroupService.getAllAttributeGroups(function (data, statusCode) {
             $scope.attributeGroups = data;
 
-            if (statusCode !== 200) {
-                Swal.fire({
-                    title: 'Server fel',
-                    type: 'error'
-                }).then(function () {
-                    location.reload();
-                });
-            }
+            //if (statusCode !== 200) {
+            //    Swal.fire({
+            //        title: 'Server fel',
+            //        type: 'error'
+            //    }).then(function () {
+            //        location.reload();
+            //    });
+            //}
 
         });
 
@@ -34,14 +34,14 @@
         attributeService.getAllAttributes(function (data, statusCode) {
             $scope.attributes = data;
 
-            if (statusCode !== 200) {
-                Swal.fire({
-                    title: 'Server fel',
-                    type: 'error'
-                }).then(function () {
-                    location.reload();
-                });
-            }
+            //if (statusCode !== 200) {
+            //    Swal.fire({
+            //        title: 'Server fel',
+            //        type: 'error'
+            //    }).then(function () {
+            //        location.reload();
+            //    });
+            //}
         });
 
 

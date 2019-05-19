@@ -1,5 +1,5 @@
-﻿app.controller('exportCtrl', ['$scope', 'catalogService', 'categoryService',
-    function ($scope, catalogService, categoryService) {
+﻿app.controller('exportCtrl', ['$scope', '$http', 'catalogService', 'categoryService', 'subcategoryService',
+    function ($scope, $http, catalogService, categoryService, subcategoryService) {
 
         //Get all catalogs.
         catalogService.getAllCatalogs(function (data) {
@@ -27,7 +27,7 @@
 
         //Get all categories
         categoryService.getAllCategories(function (data) {
-            $scope.categories = response.data;
+            $scope.categories = data;
         });
 
         //Export category

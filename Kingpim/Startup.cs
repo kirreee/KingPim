@@ -57,8 +57,10 @@ namespace Kingpim
             services.AddTransient<FileUploadHelper, FileUploadHelper>();
             services.AddTransient<ExportHelper, ExportHelper>();
 
+            services.AddTransient<SignInManager<ApplicationUser>, SignInManager<ApplicationUser>>();
 
             //Repositories
+            services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IAttributeRepository, AttributeRepository>();
             services.AddTransient<IAttributeGroupRepository, AttributeGroupRepository>();

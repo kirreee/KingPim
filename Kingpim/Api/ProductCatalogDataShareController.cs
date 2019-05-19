@@ -12,11 +12,10 @@ namespace Kingpim.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ApiShareController : ControllerBase
+    public class ProductCatalogDataShareController : ControllerBase
     {
-
         private readonly ApplicationDbContext _ctx;
-        public ApiShareController(ApplicationDbContext context)
+        public ProductCatalogDataShareController(ApplicationDbContext context)
         {
             _ctx = context;
         }
@@ -27,7 +26,7 @@ namespace Kingpim.Api
         public ActionResult GetFullProductData(string apiKey)
         {
 
-            if(apiKey != ApiKey)
+            if (apiKey != ApiKey)
             {
                 return Unauthorized();
             }
@@ -54,7 +53,7 @@ namespace Kingpim.Api
                         {
                             subcategoryAttribute.AttributeGroup = _ctx.AttributeGroups.FirstOrDefault(f => f.Id == subcategoryAttribute.Id);
                         });
-                      
+
                     });
 
                 });
@@ -85,13 +84,13 @@ namespace Kingpim.Api
         [HttpGet, Route("GetProductDataByCategoryId/{apiKey}/{categoryId}")]
         public ActionResult GetProductDataByCategoryId(string apiKey, int categoryId)
         {
-           
-            if(apiKey != ApiKey)
+
+            if (apiKey != ApiKey)
             {
                 return Unauthorized();
             }
 
-            if(categoryId <= 0)
+            if (categoryId <= 0)
             {
                 return NotFound();
             }
@@ -127,7 +126,7 @@ namespace Kingpim.Api
             }
 
             Product product = _ctx.Products.FirstOrDefault(f => f.Id == productId);
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -139,4 +138,5 @@ namespace Kingpim.Api
             return Ok(product);
         }
     }
+
 }

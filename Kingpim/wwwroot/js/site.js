@@ -41,6 +41,10 @@ app.config(["$routeProvider",
                 templateUrl: "/Templates/Export.html",
                 controller: "exportCtrl"
             }).
+            when("/login", {
+                templateUrl: "/Templates/Login.html",
+                controller: "loginCtrl"
+            }).
             otherwise({
                 redirectTo: "/product"
             });

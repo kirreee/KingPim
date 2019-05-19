@@ -1,18 +1,9 @@
-﻿app.controller('attributeGroupCtrl', ['attributeGroupService', function ($scope, attributeGroupService) {
+﻿app.controller('attributeGroupCtrl', ['$scope', 'attributeGroupService', function ($scope, attributeGroupService) {
 
     //Get all AttributeGroups.
-    attributeGroupService.getAllAttributeGroups(function (data, statusCode) {
+    attributeGroupService.getAllAttributeGroups(function (data, responseMessage) {
         $scope.attributeGroups = data;
-
-        if (statusCode !== 200) {
-            Swal.fire({
-                title: 'Server fel',
-                type: 'error'
-            }).then(function () {
-                location.reload();
-            });
-        }
-    });
+    }); 
 
     //Get attributeGroup by id.
     $scope.getAttributeGroupById = function (attributeGroupId) {

@@ -16,6 +16,7 @@ namespace Kingpim.Api
     public class SubcategoriesController : ControllerBase
     {
         private readonly ISubcategoryRepository _subcategoryRepository;
+
         public SubcategoriesController(ISubcategoryRepository subcategoryRepository)
         {
             _subcategoryRepository = subcategoryRepository;

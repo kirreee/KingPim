@@ -4,6 +4,7 @@ using Kingpim.Services.Dtos;
 using Kingpim.Services.Factories;
 using Kingpim.Services.Interfaces;
 using Kingpim.Services.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,18 @@ namespace Kingpim.Services.Repositories
     {
         private readonly ApplicationDbContext _ctx;
         private readonly SubcategoryFactory _subcategoryFactory;
-        IAttributeGroupRepository _attributeGroupRepository;
+        private readonly IAttributeGroupRepository _attributeGroupRepository;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public SubcategoryRepository(ApplicationDbContext context, SubcategoryFactory subcategoryFactory,
-           IAttributeGroupRepository attributeGroupRepository)
+        public SubcategoryRepository(ApplicationDbContext context, 
+            SubcategoryFactory subcategoryFactory,
+           IAttributeGroupRepository attributeGroupRepository,
+           SignInManager<ApplicationUser> signInManager)
         {
             _ctx = context;
             _subcategoryFactory = subcategoryFactory;
             _attributeGroupRepository = attributeGroupRepository;
+            _signInManager = signInManager;
         }
 
         public List<SubcategoryViewModel> GetAllSubcategories()

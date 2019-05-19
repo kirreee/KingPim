@@ -30,9 +30,6 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Hem</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" href="#!/product">Produkter</a>
                         </li>
                         <li class="nav-item">
@@ -49,6 +46,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="#!/attribute">Attributer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#!/export">Exportera data</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -88,10 +88,21 @@
         <script src="~/js/controllers/attributgroups-ctrl/attributeGroupCtrl.js"></script>
         <script src="~/js/controllers/attributes-ctrl/attributeCtrl.js"></script>
         <script src="~/js/controllers/attributes-ctrl/createAttributeCtrl.js"></script>
-        <script src="~/js/services/SwalServices.js"></script>
         <script src="~/js/controllers/products-ctrl/productCtrl.js"></script>
         <script src="~/js/controllers/products-ctrl/createProductCtrl.js"></script>
         <script src="~/js/controllers/products-ctrl/productDetailsCtrl.js"></script>
+        <script src="~/js/controllers/exportCtrl.js"></script>
+
+        <!--Angular services-->
+        <script src="~/js/services/CatalogService.js"></script>
+        <script src="~/js/services/attributeGroupService.js"></script>
+        <script src="~/js/services/attributeService.js"></script>
+        <script src="~/js/services/CategoryService.js"></script>
+        <script src="~/js/services/mediaTypeService.js"></script>
+        <script src="~/js/services/ProductService.js"></script>
+        <script src="~/js/services/SubcategoryService.js"></script>
+        <script src="~/js/services/valueTypeService.js"></script>
+        <script src="~/js/services/SwalServices.js"></script>
 
 
     </environment>

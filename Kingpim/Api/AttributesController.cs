@@ -32,6 +32,11 @@ namespace Kingpim.Api
         [HttpGet, Route("GetAttributeById/{attributeId}")]
         public ActionResult<AttributeViewModel> GetAttributeById(int attributeId)
         {
+            if(attributeId <= 0)
+            {
+                return NotFound();
+            }
+
             return _attributeRepository.GetAttributeById(attributeId);
         }
 

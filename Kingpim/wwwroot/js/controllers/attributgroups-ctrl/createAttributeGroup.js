@@ -1,5 +1,4 @@
-﻿app.controller('createAttributeGroup', function ($scope, $http) {
-
+﻿app.controller('createAttributeGroup', ['attributeGroupService', function ($scope, attributeGroupService) {
 
     //Create attribute group
     $scope.createAttributeGroup = function () {
@@ -8,29 +7,23 @@
             'AttributeGroupName': $scope.attributeGroup.name
         };
 
-        $http({
-            method: 'POST',
-            url: '/api/AttributeGroups/CreateAttributeGroup',
-            data: inputData
-        }).then(function successCallback(response) {
-
-            Swal.fire({
-                title: 'Attribute gruppen skapades!',
-                type: 'success'
-            }).then(function () {
-                location.reload();
-            });
-
-        }, function errorCallback(response) {
-
-            Swal.fire({
-                title: 'Gick inte skapa attribute gruppen!',
-                type: 'error'
-            }).then(function () {
-                location.reload();
-            });
-
+        attributeGroupService.createAttributeGroup(inputData, function (statusCode) {
+            if (statusCode === 200) {
+                Swal.fire({
+                    title: 'Attribute gruppen skapades!',
+                    type: 'success'
+                }).then(function () {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    title: 'Gick inte skapa attribute gruppen!',
+                    type: 'error'
+                }).then(function () {
+                    location.reload();
+                });
+            }
         });
     };
 
-});
+}]);

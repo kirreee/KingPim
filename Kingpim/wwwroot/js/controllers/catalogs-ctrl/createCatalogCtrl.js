@@ -1,4 +1,4 @@
-﻿app.controller('createCatalogCtrl', function ($scope, $http) {
+﻿app.controller('createCatalogCtrl', ['$scope', 'catalogService', function ($scope, catalogService) {
 
     //Create a new catalog
     $scope.createCatalog = function () {
@@ -7,38 +7,23 @@
             'Name': $scope.catalog.name
         };
 
-        $http({
-            method: 'POST',
-            url: '/api/Catalogs/CreateCatalog',
-            data: inputModel
-        }).then(function successCallback(response) {
-
-            Swal.fire({
-                title: 'Katalog har blivit skapad!',
-                type: 'success'
-            }).then(function () {
-                location.reload();
-            });
-
-        }, function errorCallback(response) {
-            $scope.checkStatusMessage(response);
-        });
-
-
-        $scope.checkStatusMessage = function (response) {
-            var errorMessage = "Server fel";
-            if (response.status === 500) {
-                errorMessage = "Du måste vara inloggad för att kunna skapa en katalog";
+        catalogService.createCatalog(inputModel, function (statusCode) {
+            if (statusCode === 200) {
+                Swal.fire({
+                    title: 'Katalog har blivit skapad!',
+                    type: 'success'
+                }).then(function () {
+                    location.reload();
+                });
             }
-
-            Swal.fire({
-                title: 'OBS!',
-                text: errorMessage,
-                type: 'error'
-            }).then(function () {
-                return;
-            });
-
-        };
+            else {
+                Swal.fire({
+                    title: 'Gick inte skapa katalog',
+                    type: 'error'
+                }).then(function () {
+                    location.reload();
+                });
+            }
+        });
     };
-});
+}]);

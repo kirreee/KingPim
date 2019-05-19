@@ -30,6 +30,11 @@ namespace Kingpim.Api
         [HttpGet, Route("GetSubcategoryById/{subcategoryId}")]
         public ActionResult<SubcategoryViewModel> GetSubcategoryById(int subcategoryId)
         {
+            if(subcategoryId <= 0)
+            {
+                return NotFound();
+            }
+
             return _subcategoryRepository.GetSubcategoryById(subcategoryId);
         }
 

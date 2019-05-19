@@ -37,8 +37,12 @@ app.config(["$routeProvider",
                 templateUrl: "/Templates/ProductDetails.html",
                 controller: "productDetailsCtrl"
             }).
+            when("/export", {
+                templateUrl: "/Templates/Export.html",
+                controller: "exportCtrl"
+            }).
             otherwise({
-                redirectTo: "/home"
+                redirectTo: "/product"
             });
     }
 ]);

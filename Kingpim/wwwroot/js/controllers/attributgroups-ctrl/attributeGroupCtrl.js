@@ -1,49 +1,39 @@
-﻿app.controller('attributeGroupCtrl', function ($scope, $http) {
+﻿app.controller('attributeGroupCtrl', ['attributeGroupService', function ($scope, attributeGroupService) {
 
     //Get all AttributeGroups.
-    $http({
-        method: 'GET',
-        url: '/api/AttributeGroups/GetAllAttributeGroups'
-    }).then(function successCallback(response) {
-        console.log(response.data);
-        $scope.attributeGroups = response.data;
+    attributeGroupService.getAllAttributeGroups(function (data, statusCode) {
+        $scope.attributeGroups = data;
 
-    }, function errorCallback(response) {
-
-        Swal.fire({
-            title: 'Server fel',
-            type: 'error'
-        }).then(function () {
-            location.reload();
-        });
-
-    });
-
-
-    //Get attributeGroup by id.
-    $scope.getAttributeGroupById = function (attributeGroupId) {
-        $http({
-            method: 'GET',
-            url: '/api/AttributeGroups/GetAttributeGroupById/' + attributeGroupId
-        }).then(function successCallback(response) {
-
-            $scope.attributeGroupObj = {
-                'AttributeGroupId': response.data.attributeGroupId,
-                'AttributeGroupName': response.data.attributeGroupName
-            };
-
-        }, function errorCallback(response) {
-
+        if (statusCode !== 200) {
             Swal.fire({
-                title: 'Server fel!',
+                title: 'Server fel',
                 type: 'error'
             }).then(function () {
                 location.reload();
             });
+        }
+    });
 
+    //Get attributeGroup by id.
+    $scope.getAttributeGroupById = function (attributeGroupId) {
+
+        attributeGroupService.getAttributeGroupById(attributeGroupId, function (data, statusCode) {
+
+            $scope.attributeGroupObj = {
+                'AttributeGroupId': data.attributeGroupId,
+                'AttributeGroupName': data.attributeGroupName
+            };
+
+            if (statusCode === 200) {
+                Swal.fire({
+                    title: 'Server fel!',
+                    type: 'error'
+                }).then(function () {
+                    location.reload();
+                });
+            }
         });
     };
-
 
     //Update attributeGroup
     $scope.updateAttributeGroup = function (attributeGroupId) {
@@ -52,59 +42,49 @@
             'AttributeGroupName': $scope.attributeGroupObj.AttributeGroupName
         };
 
-        $http({
-            method: 'POST',
-            url: '/api/AttributeGroups/UpdateAttributeGroup/' + attributeGroupId,
-            data: inputModel
-        }).then(function successCallback(response) {
+        attributeGroupService.updateAttributeGroup(attributeGroupId, inputModel, function (status) {
 
-            Swal.fire({
-                title: 'Attribute gruppen har updaterats!',
-                type: 'success'
-            }).then(function () {
-                location.reload();
-            });
-
-
-        }, function erorrCallback(response) {
-
-            Swal.fire({
-                title: 'Gick inte updatera attribute gruppen!',
-                type: 'error'
-            }).then(function () {
-                location.reload();
-            });
+            if (statusCode === 200) {
+                Swal.fire({
+                    title: 'Attribute gruppen har updaterats!',
+                    type: 'success'
+                }).then(function () {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    title: 'Gick inte updatera attribute gruppen!',
+                    type: 'error'
+                }).then(function () {
+                    location.reload();
+                });
+            }
 
         });
     };
 
+    //Delete attrbuteGroup
     $scope.deleteAttributeGroup = function (attributeGroupId) {
-
-        console.log(attributeGroupId);
-
-        $http({
-            method: 'DELETE',
-            url: '/api/AttributeGroups/DeleteAttributeGroup/' + attributeGroupId
-        }).then(function successCallback(response) {
-
-            Swal.fire({
-                title: 'Attribute gruppen är nu bortagen!',
-                type: 'success'
-            }).then(function () {
-                location.reload();
-            });
-
-        }, function errorCallback(response) {
-
-            Swal.fire({
-                title: 'Kunde inte ta bort attribute gruppen!',
-                type: 'error'
-            }).then(function () {
-                location.reload();
-            });
-
+        attributeGroupService.deleteAttributeGroup(attributeGroupId, function (statusCode) {
+            if (statusCode === 200) {
+                Swal.fire({
+                    title: 'Attribute gruppen är nu bortagen!',
+                    type: 'success'
+                }).then(function () {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    title: 'Kunde inte ta bort attribute gruppen!',
+                    type: 'error'
+                }).then(function () {
+                    location.reload();
+                });
+            }
         });
     };
 
 
-});
+
+
+}]);

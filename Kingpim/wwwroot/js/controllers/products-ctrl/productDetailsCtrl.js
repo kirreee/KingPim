@@ -1,81 +1,49 @@
-﻿app.controller('productDetailsCtrl', function ($scope, $http, $routeParams) {
+﻿app.controller('productDetailsCtrl', ['$scope','$http', '$routeParams', 'mediaTypeService', 'productService',
+    function ($scope, $http, $routeParams, mediaTypeService, productService) {
 
-    $http({
-        method: 'GET',
-        url: '/api/Products/GetMediumTypes/'
-    }).then(function successCallback(response) {
-
-        $scope.mediaTypes = response.data;
-        console.log($scope.mediaTypes);
-
-
-    }, function errorCallback(response) {
-        console.log(response.status);
-    });
-
-    $scope.changeMediaType = function (selectedMediaType, fileId) {
-
-        $http({
-            method: 'POST',
-            url: '/api/Products/SetMediaType/' + selectedMediaType + '/' + fileId
-        }).then(function successCallback(response) {
-
-            //location.reload();
-
-        }, function errorCallback(response) {
-
-
-
+        //Get all media types
+        mediaTypeService.getAllMediaTypes(function (data) {
+            $scope.mediaTypes = data;
         });
 
-    };
+        //Set media type on product
+        $scope.changeMediaType = function (selectedMediaType, fileId) {
+            mediaTypeService.setMediaTypeOnProduct(selectedMediaType, fileId, function (statusCode) {
+                if (statusCode !== 200) {
+                    location.reload();
+                }
 
-    $http({
-        method: 'GET',
-        url: '/api/Products/GetProductById/' + $routeParams.id
-    }).then(function successCallback(response) {
-
-        var published = "Nej";
-        if (response.data.isPublished === true) {
-            published = "Ja";
-        }
-
-        $scope.productObj = {
-            'productId': response.data.productId,
-            'productName': response.data.productName,
-            'isPublished': published,
-            'lastModified': response.data.lastModified,
-            'lastModifiedBy': response.data.lastModifiedBy,
-            'versioNumber': response.data.versioNumber,
-            'Files': response.data.files
+            });
         };
 
-        console.log($scope.productObj);
 
-    }, function errorCallback(response) {
+        //Get product by Id
+        productService.getProductById($routeParams.id, function (data) {
 
+            let published = "Nej";
+            if (data.isPublished === true) {
+                published = "Ja";
+            }
 
-
-    });
-
-
-    $scope.setMainImage = function (fileId) {
-        $http({
-            method: 'POST',
-            url: '/api/Products/SetMainImage/' + fileId
-        }).then(function successCallback(response) {
-
-            location.reload();
-
-        }, function errorCallback(response) {
-
-
-
+            $scope.productObj = {
+                'productId': data.productId,
+                'productName': data.productName,
+                'isPublished': published,
+                'lastModified': data.lastModified,
+                'lastModifiedBy': data.lastModifiedBy,
+                'versioNumber': data.versioNumber,
+                'Files': data.files
+            };
         });
-    };
 
 
+        $scope.setMainImage = function (fileId) {
+            $http({
+                method: 'POST',
+                url: '/api/Products/SetMainImage/' + fileId
+            }).then(function successCallback(response) {
+                location.reload();
+            }, function errorCallback(response) { });
+        };
 
-
-
-});
+    }]);

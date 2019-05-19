@@ -45,6 +45,11 @@ namespace Kingpim.Api
         [HttpGet, Route("GetAttributeGroupById/{attributeGroupId}")]
         public ActionResult<AttributeGroupViewModel> GetAttributeGroupById(int attributeGroupId)
         {
+            if(attributeGroupId <= 0)
+            {
+                return NotFound();
+            }
+
             return _attributeGroupRepository.GetAttributeGroupById(attributeGroupId);
         }
 

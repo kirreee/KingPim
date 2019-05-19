@@ -1,175 +1,137 @@
-﻿app.controller('productCtrl', ['$scope', '$http', 'SwalService', function ($scope, $http, SwalService) {
+﻿app.controller('productCtrl', ['$scope', 'SwalService', 'productService', 'subcategoryService',
+    function ($scope, SwalService, productService, subcategoryService) {
 
-    //Get all products
-    $http({
-        method: 'GET',
-        url: '/api/Products/GetAllProducts'
-    }).then(function successCallback(response) {
+        //Get all products
+        productService.getAllProducts(function (data, statusCode) {
+            $scope.productList = data;
 
-        $scope.productList = response.data;
-        
+            if (statusCode === 505) {
+                $scope.swalObj = {
+                    'title': 'Gick inte hämta produkternas',
+                    'type': 'error'
+                };
 
+                SwalService.swalShow($scope.swalObj);
+            }
+        });
 
-    }, function errorCallback(response) {
-
-        $scope.swalObj = {
-            'title': 'Gick inte hämta produkternas',
-            'type': 'error'
+        //Get all subcategories.
+        subcategoryService.getAllSubcategories, function (data) {
+            $scope.subcategories = data;
         };
 
-        SwalService.swalShow($scope.swalObj);
 
-    });
+        //Get ProductById
+        $scope.getProductById = function (productId) {
+            productService.getProductById(productId, data, function (statusCode) {
+                $scope.productObj = {
+                    'productId': data.productId,
+                    'productName': data.productName,
+                    'isPublished': data.isPublished
+                };
 
+                if (statusCode !== 200) {
+                    $scope.swalObj = {
+                        'title': 'Gick inte hämta produkten',
+                        'type': 'error'
+                    };
 
-    //Get all subcategories.
-    $http({
-        method: 'GET',
-        url: '/api/Subcategories/GetAllSubcategories'
-    }).then(function successCallback(response) {
-
-        $scope.subcategories = response.data;
-
-
-    }, function errorCallback(response) {
-
-        $scope.swalObj = {
-            'title': 'Server error!',
-            'type': 'error'
+                    SwalService.swalShow($scope.swalObj);
+                }
+            });
         };
 
-        SwalService.swalShow($scope.swalObj);
 
-    });
+        //Update product
+        $scope.updateProduct = function (productId) {
 
-    //Get ProductById
-    $scope.getProductById = function (productId) {
-        $http({
-            method: 'GET',
-            url: '/api/Products/GetProductById/' + productId
-        }).then(function successCallback(response) {
-
-            $scope.productObj = {
-                'productId': response.data.productId,
-                'productName': response.data.productName,
-                'isPublished': response.data.isPublished
+            let inputData = {
+                'ProductName': $scope.productObj.productName,
+                'IsProductPublished': $scope.productObj.isPublished,
+                'SubcategoryId': $scope.selectedSubcategory
             };
 
-        }, function errorCallback(response) {
+            productService.updateProduct(productId, inputData, function (statusCode) {
+                if (statusCode === 200) {
+                    $scope.swalObj = {
+                        'title': 'Produkt skapad!',
+                        'type': 'success'
+                    };
 
-            $scope.swalObj = {
-                'title': 'Gick inte hämta produkten',
-                'type': 'error'
-            };
+                    SwalService.swalShow($scope.swalObj);
+                }
+                else {
+                    $scope.swalObj = {
+                        'title': 'Gick inte skapa produkt',
+                        'type': 'error'
+                    };
 
-            SwalService.swalShow($scope.swalObj);
-
-        });
-    };
-
-    //Update product
-    $scope.updateProduct = function (productId) {
-
-        let inputData = {
-            'ProductName': $scope.productObj.productName,
-            'IsProductPublished': $scope.productObj.isPublished,
-            'SubcategoryId': $scope.selectedSubcategory
+                    SwalService.swalShow($scope.swalObj);
+                }
+            });
         };
 
-        $http({
-            method: 'POST',
-            url: '/api/Products/UpdateProduct/' + productId,
-            data: inputData
-        }).then(function successCallback(response) {
+        //Delete product
+        $scope.deleteProduct = function (productId) {
 
-            $scope.swalObj = {
-                'title': 'Produkt skapad!',
-                'type': 'success'
-            };
+            productService.deleteProduct(productId, function (statusCode) {
+                if (statusCode === 200) {
+                    $scope.swalMessage = {
+                        'title': 'Produkt blev borttagen',
+                        'type': 'success'
+                    };
 
-            SwalService.swalShow($scope.swalObj);
+                    SwalService.swalShow($scope.swalObj);
+                }
+                else {
+                    $scope.swalMessage = {
+                        'title': 'Gick inte ta bort produkt',
+                        'type': 'error'
+                    };
 
-        }, function errorCallback(response) {
-
-            $scope.swalObj = {
-                'title': 'Gick inte skapa produkt',
-                'type': 'error'
-            };
-
-            SwalService.swalShow($scope.swalObj);
-
-        });
-
-    };
-
-    //Delete product
-    $scope.deleteProduct = function (productId) {
-
-        $http({
-            method: 'DELETE',
-            url: '/api/Products/DeleteProduct/' + productId
-        }).then(function successCallback(response) {
-
-            $scope.swalObj = {
-                'title': 'Produkt blev borttagen',
-                'type': 'success'
-            };
-
-            SwalService.swalShow($scope.swalObj);
-
-        }, function erroCallback(response) {
-
-            $scope.swalObj = {
-                'title': 'Gick inte ta bort produkt',
-                'type': 'error'
-            };
-
-            SwalService.swalShow($scope.swalObj);
-
-        });
-
-    };
+                    SwalService.swalShow($scope.swalObj);
+                }
+            });
+        };
 
 
-    //trigger File upload
-    $scope.triggerFileUpload = function () {
-        $('#fileUpload').click();
-    };
+        //trigger File upload
+        $scope.triggerFileUpload = function () {
+            $('#fileUpload').click();
+        };
 
-    $scope.uploadFile = function (productId) {
+        $scope.uploadFile = function (productId) {
 
-        var fd = new FormData();
-        var file = $('#fileUpload')[0].files[0];
-        fd.append('file', file);
+            var fd = new FormData();
+            var file = $('#fileUpload')[0].files[0];
+            fd.append('file', file);
 
-        $.ajax({
-            type: 'POST',
-            url: '/api/Products/FileUpload/' + productId,
-            data: fd,
-            contentType: false,
-            processData: false
+            $.ajax({
+                type: 'POST',
+                url: '/api/Products/FileUpload/' + productId,
+                data: fd,
+                contentType: false,
+                processData: false
 
-        }).then(function successCallback(response) {
+            }).then(function successCallback(response) {
 
-            $scope.swalObj = {
-                'title': 'Fil har laddats upp!',
-                'type': 'success'
-            };
+                $scope.swalMessage = {
+                    'title': 'Fil har laddats upp!',
+                    'type': 'success'
+                };
 
-            SwalService.swalShow($scope.swalObj);
+                SwalService.swalShow($scope.v);
 
-        }, function errorCallback(response) {
+            }, function errorCallback(response) {
 
-            $scope.swalObj = {
-                'title': 'Gick inte ladda upp filen!',
-                'type': 'error'
-            };
+                $scope.swalMessage = {
+                    'title': 'Gick inte ladda upp filen!',
+                    'type': 'error'
+                };
 
-            SwalService.swalShow($scope.swalObj);
+                SwalService.swalShow($scope.swalMessage);
 
-        });
+            });
 
-    };
-
-
-}]);
+        };
+    }]);

@@ -55,6 +55,7 @@ namespace Kingpim
 
             //Helpers
             services.AddTransient<FileUploadHelper, FileUploadHelper>();
+            services.AddTransient<ExportHelper, ExportHelper>();
 
 
             //Repositories

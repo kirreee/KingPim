@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label>Välj katalog</label>
                                 <select class="form-control" id="selectListCatalog">
-                                    <option ng-repeat="catalog in catalogList" id="{{catalog.catalogId}}">{{catalog.catalogName}}</option>
+                                    <option ng-repeat="catalog in catalogs" id="{{catalog.catalogId}}">{{catalog.catalogName}}</option>
                                 </select>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                         <img src="../Media/icons/edit-icon.png" width="20" class="img-fluid icon"
                              data-toggle="modal" data-target="#update-catalog-modal" ng-click="getCategoryById(category.categoryId)" />
 
-                        <img src="/Media/icons/trash-icon.png" width="20" class="img-fluid icon" ng-click="removeCatalog(category.categoryId)" />
+                        <img src="/Media/icons/trash-icon.png" width="20" class="img-fluid icon" ng-click="removeCateory(category.categoryId)" />
                     </td>
                 </tr>
             </tbody>

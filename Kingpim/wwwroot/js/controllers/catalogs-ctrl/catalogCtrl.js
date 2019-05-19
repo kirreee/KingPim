@@ -1,67 +1,44 @@
-﻿app.controller('catalogCtrl', function ($scope, $http) {
+﻿app.controller('catalogCtrl', ['$scope', 'catalogService', function ($scope, catalogService) {
 
     //Get all catalogs
-    $http({
-        method: 'GET',
-        url: '/api/Catalogs/GetAllCatalogs'
-    }).then(function successCallback(response) {
-
-        $scope.catalogs = response.data;
-
-    }, function errorCallback(response) {
-
-
+    catalogService.getAllCatalogs(function (data) {
+        $scope.catalogs = data;
     });
 
     //Remove catalog
     $scope.removeCatalog = function (catalogId) {
-        $http({
-            method: 'DELETE',
-            url: '/api/Catalogs/DeleteCatalog/' + catalogId
-        }).then(function successCallback(response) {
 
-            Swal.fire({
-                title: 'Katalog har raderats!',
-                type: 'success'
-            }).then(function () {
-                location.reload();
-            });
+        catalogService.removeCatalog(catalogId, function (responseStatus) {
+           
+            if (responseStatus === 200) {
 
-        }, function errorCallback(response) {
-
-            Swal.fire({
-                title: 'Gick inte radera katalog',
-                type: 'error'
-            }).then(function () {
-                location.reload();
-            });
-
+                Swal.fire({
+                    title: 'Katalog har updaterats!',
+                    type: 'success'
+                }).then(function () {
+                    location.reload();
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Gick inte radera katalog',
+                    type: 'error'
+                }).then(function () {
+                    return;
+                });
+            }
         });
     };
 
     //Get Catalog by id
     $scope.getCatalogById = function (catalogId) {
 
-        $http({
-            method: 'GET',
-            url: '/api/Catalogs/GetCatalogById/' + catalogId
-        }).then(function successCallback(response) {
-
+        catalogService.getCatalogById(catalogId, function (data) {
             $scope.catalogObj = {
-                'CatalogName': response.data.catalogName,
-                'catalogId': response.data.catalogId,
-                'creationDate': response.data.creationDate
+                'CatalogName': data.catalogName,
+                'catalogId': data.catalogId,
+                'creationDate': data.creationDate
             };
-
-        }, function errorCallback(response) {
-
-            Swal.fire({
-                title: 'Gick inte hitta katalogen.',
-                type: 'error'
-            }).then(function () {
-                location.reload();
-            });
-
         });
     };
 
@@ -73,29 +50,24 @@
             'Name': $scope.catalogObj.CatalogName
         };
 
-        $http({
-            method: 'POST',
-            url: '/api/Catalogs/UpdateCatalog/' + catalogId,
-            data: inputModel
-        }).then(function successCallback(response) {
-
-            Swal.fire({
-                title: 'Katalog har updaterats!',
-                type: 'success'
-            }).then(function () {
-                location.reload();
-            });
-
-        }, function errorCallback(response) {
-
-            Swal.fire({
-                title: 'Gick inte updatera katalog',
-                type: 'error'
-            }).then(function () {
-                return;
-            });
-
+        catalogService.updateCatalog(catalogId, inputModel, function (statusCode) {
+            if (statusCode === 200) {
+                Swal.fire({
+                    title: 'Katalog har updaterats!',
+                    type: 'success'
+                }).then(function () {
+                    location.reload();
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Gick inte updatera katalog',
+                    type: 'error'
+                }).then(function () {
+                    return;
+                });
+            }
         });
     };
 
-});
+}]);

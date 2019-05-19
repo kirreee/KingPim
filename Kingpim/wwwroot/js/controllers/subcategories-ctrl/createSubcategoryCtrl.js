@@ -1,4 +1,4 @@
-﻿app.controller('createSubcategoryCtrl', function ($scope, $http) {
+﻿app.controller('createSubcategoryCtrl', ['$scope', 'subcategoryService', function ($scope, subcategoryService) {
 
     $scope.createSubcategory = function () {
 
@@ -9,26 +9,23 @@
             'SubcategoiresIds': $scope.selectedAttributeGroups
         };
 
-        $http({
-            method: 'POST',
-            url: '/api/Subcategories/CreateSubcategory',
-            data: inputModel
-        }).then(function successCallback(response) {
-            Swal.fire({
-                title: 'Subkategorin blev skapad!',
-                type: 'success'
-            }).then(function () {
-                location.reload();
-            });
-        }, function errorCallback(response) {
-            Swal.fire({
-                title: 'Gick inte skapa subkategorin!',
-                type: 'error'
-            }).then(function () {
-                return;
-            });
-
+        subcategoryService.createSubcategory(inputModel, function (statusCode) {
+            if (statusCode === 200) {
+                Swal.fire({
+                    title: 'Subkategorin blev skapad!',
+                    type: 'success'
+                }).then(function () {
+                    location.reload();
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Gick inte skapa subkategorin!',
+                    type: 'error'
+                }).then(function () {
+                    return;
+                });
+            }
         });
     };
-
-});
+}]);

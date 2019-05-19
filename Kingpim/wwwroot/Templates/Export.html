@@ -1,0 +1,71 @@
+﻿<div class="container">
+
+    <!--Export catalog data-->
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h5>Exportera katalog</h5>
+        </div>
+        <div class="col-md-12 text-center">
+            <select class="form-control w-25" ng-options="catalog.catalogId as catalog.catalogName for
+                                        catalog in catalogs" ng-model="selectedCatalog"
+                    ng-change="exportCatalog(selectedCatalog)"></select>
+            <div class="download-catalog pt-3 pb-3">
+                <a href="/FileUploads/{{catalogJsonFileName}}" download class="btn btn-success"
+                   ng-if="showDownloadCatalogBtn">
+                    Ladda ner katalog filen
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!--Export category data-->
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h5>Exportera kategori</h5>
+        </div>
+        <div class="col-md-12 text-center">
+            <select class="form-control w-25" ng-options="category.categoryId as category.categoryName for
+                                        category in categories" ng-model="selectedCategory"
+                    ng-change="exportCategory(selectedCategory)"></select>
+            <div class="download-category pt-3 pb-3">
+                <a href="/FileUploads/{{categoryJsonFileName}}" download class="btn btn-success"
+                   ng-if="showDownloadCategoryBtn">
+                    Ladda ner kategori filen
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!--Export subcategory data-->
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h5>Exportera subkategory</h5>
+        </div>
+        <div class="col-md-12 text-center">
+            <select class="form-control w-25" ng-options="subcategory.subcategoryId as subcategory.subcategoryName for
+                    subcategory in subcategories" ng-model="selectedSubcategory"
+                    ng-change="exportSubcategory(selectedSubcategory)"></select>
+            <div class="download-subcategory pt-3 pb-3">
+                <a href="/FileUploads/{{subcategoryJsonFileName}}" download class="btn btn-success"
+                   ng-if="showDownloadSubcategoryBtn">
+                    Ladda ner subkategori filen
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<style>
+    h5 {
+        text-decoration: underline;
+        color: #ffffff;
+    }
+
+    select {
+        margin: auto;
+        display: block;
+    }
+</style>

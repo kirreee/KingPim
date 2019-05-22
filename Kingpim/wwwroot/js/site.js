@@ -46,7 +46,8 @@ app.config(["$routeProvider",
                 controller: "loginCtrl"
             }).
             otherwise({
-                redirectTo: "/product"
+                redirectTo: "/home",
+                controller: "mainCtrl"
             });
     }
 ]);

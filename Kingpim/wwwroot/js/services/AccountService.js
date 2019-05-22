@@ -1,24 +1,16 @@
 ﻿app.service('accountService', function ($http) {
 
-
-    //Login
-    this.login = function (inputData, statusMessage) {
+    //Login 
+    this.login = function (inputModel, statusCode) {
 
         $http({
             method: 'POST',
-            url: '/api/Users/account/login',
-            async: true,
-            data: inputData,
-            headers: {
-                "Content-Type": "application/json; charset = utf-8;"
-            }
+            url: '/api/Account/Login',
+            data: inputModel
         }).then(function successCallback(response) {
-            //statusMessage(response.status);
-        }, function errorCallback(response) {
-            //statusMessage(response.status);
-        });
+            statusCode(response.data);
+        }, function errorCallback(response) { statusCode(response.data); });
     };
-
 
 
 });

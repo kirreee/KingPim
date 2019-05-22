@@ -42,5 +42,18 @@
         }, function erroCallback(response) { statusCode(response.status); });
     };
 
+    this.fileUpload = function (file, productId, statusMessage) {
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Products/FileUpload/' + productId,
+            data: file,
+            contentType: false,
+            processData: false
+
+        }).then(function successCallback(response) {
+            statusMessage(response.data);
+        }, function errorCallback(response) { statusMessage(response.data); });
+    };
 
 });

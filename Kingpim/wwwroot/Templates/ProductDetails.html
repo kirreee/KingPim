@@ -5,31 +5,19 @@
             <hr />
         </div>
         <div class="col-md-12 text-center">
-            <h5 style="text-decoration:underline;">Produkt information</h5>
+            <h5 style="text-decoration:underline;">Produkt filer</h5>
         </div>
-        <!--<div class="col-md-2">
-            <div>
-                <h6>Produkt namn</h6>
-                <p>{{ productObj.productName}}</p>
+        <div class="col-md-12 text-white">
+            <div class="col-md-12 text-center text-dark">
+                <h6>Ladda upp fil / bild till produkten</h6>
+                <img src="/Media/icons/upload.png" class="img-fluid upload-icon pt-2 pb-2" ng-click="triggerFileUpload()" />
+                <hr />
+                <div class="button-holder pt-2 pb-2">
+                    <button class="btn btn-sm btn-outline-success" ng-click="uploadFile(productObj.productId)">Ladda upp valda fil</button>
+                </div>
+                <input type="file" hidden id="fileUpload" />
             </div>
-            <div>
-                <h6>Versionnummer</h6>
-                <p>{{productObj.versioNumber}}</p>
-            </div>
-            <div>
-                <h6>Senast modiferad</h6>
-                <p>{{productObj.lastModified | date: 'yyyy-MM-dd'}}</p>
-            </div>
-            <div>
-                <h6>Senast modiferad av</h6>
-                <p>{{productObj.lastModifiedBy}}</p>
-            </div>
-            <div>
-                <h6>Är publiserad</h6>
-                <p>{{productObj.isPublished}}</p>
-            </div>
-            <hr />
-        </div>-->
+        </div>
         <div class="col-md-12 row">
             <table class="table table-striped table-dark mt-3 text-center">
                 <thead>

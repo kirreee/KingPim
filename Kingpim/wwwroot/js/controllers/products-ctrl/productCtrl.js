@@ -93,45 +93,5 @@
                 }
             });
         };
-
-
-        //trigger File upload
-        $scope.triggerFileUpload = function () {
-            $('#fileUpload').click();
-        };
-
-        $scope.uploadFile = function (productId) {
-
-            var fd = new FormData();
-            var file = $('#fileUpload')[0].files[0];
-            fd.append('file', file);
-
-            $.ajax({
-                type: 'POST',
-                url: '/api/Products/FileUpload/' + productId,
-                data: fd,
-                contentType: false,
-                processData: false
-
-            }).then(function successCallback(response) {
-
-                $scope.swalMessage = {
-                    'title': 'Fil har laddats upp!',
-                    'type': 'success'
-                };
-
-                SwalService.swalShow($scope.v);
-
-            }, function errorCallback(response) {
-
-                $scope.swalMessage = {
-                    'title': 'Gick inte ladda upp filen!',
-                    'type': 'error'
-                };
-
-                SwalService.swalShow($scope.swalMessage);
-
-            });
-
-        };
+        
     }]);

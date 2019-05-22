@@ -1,5 +1,39 @@
-﻿app.controller('productDetailsCtrl', ['$scope','$http', '$routeParams', 'mediaTypeService', 'productService',
+﻿app.controller('productDetailsCtrl', ['$scope', '$http', '$routeParams', 'mediaTypeService', 'productService',
     function ($scope, $http, $routeParams, mediaTypeService, productService) {
+
+        //File upload
+        //trigger File upload
+        $scope.triggerFileUpload = function () {
+            $('#fileUpload').click();
+        };
+
+        //File upload
+        $scope.uploadFile = function (productId) {
+
+            var formData = new FormData();
+            var file = $('#fileUpload')[0].files[0];
+            formData.append('file', file);
+
+            productService.fileUpload(formData, productId, function (statusMessage) {
+
+                switch (statusMessage) {
+                    case 200:
+                        Swal.fire({
+                            title: 'Fil har laddats upp!',
+                            type: 'success'
+                        });
+                        break;
+                    case 500:
+                        Swal.fire({
+                            title: 'Gick inte ladda upp fil!',
+                            type: 'error'
+                        });
+                        break;
+                    default:
+                }
+
+            });
+        };
 
         //Get all media types
         mediaTypeService.getAllMediaTypes(function (data) {
@@ -19,6 +53,8 @@
 
         //Get product by Id
         productService.getProductById($routeParams.id, function (data) {
+
+            console.log(data);
 
             let published = "Nej";
             if (data.isPublished === true) {

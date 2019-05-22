@@ -56,17 +56,6 @@
                         <hr />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12 text-center text-dark">
-                        <h6>Ladda upp fil / bild till produkten</h6>
-                        <img src="/Media/icons/upload.png" class="img-fluid upload-icon pt-2 pb-2" ng-click="triggerFileUpload()"/> 
-                        <hr />
-                        <div class="button-holder pt-2 pb-2">
-                            <button class="btn btn-sm btn-outline-success" ng-click="uploadFile(productObj.productId)">Ladda upp valda fil</button>
-                        </div>
-                        <input type="file" hidden id="fileUpload" />
-                    </div>
-                </div>
                 <div class="modal-body row text-dark">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -135,7 +124,9 @@
                              data-toggle="modal" data-target="#update-catalog-modal" ng-click="getProductById(product.productId)" />
 
                         <img src="/Media/icons/trash-icon.png" width="20" class="img-fluid icon" ng-click="deleteProduct(product.productId)" />
-                        <a href="#!/product/details/{{product.productId}}" class="btn btn-success">Se produkt</a>
+                        <a href="#!/product/details/{{product.productId}}">
+                            <img src="/Media/icons/folder.png" class="img-fluid" width="25" />
+                        </a>
                     </td>
                 </tr>
             </tbody>
@@ -144,10 +135,10 @@
 </div>
 
 <style>
-    .upload-icon{
-        cursor:pointer;
-        margin:auto;
-        display:block;
+    .upload-icon {
+        cursor: pointer;
+        margin: auto;
+        display: block;
     }
 
     .icon {

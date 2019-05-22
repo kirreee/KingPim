@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +17,7 @@
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body ng-controller="mainCtrl">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -31,17 +31,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" ng-if="!isAuthenticated">
                             <a class="nav-link text-dark" href="#!/login">Login</a>
                         </li>
-                        @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-                            </li>
-                            <li class="nav-item">
-                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                                </form>
-                            </li>*@
+                        <li class="nav-item" ng-if="isAuthenticated" ng-click="logOut()">
+                            <a class="nav-link text-dark" href="#!/login">Logga ut</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
@@ -64,9 +59,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="#!/export">Exportera data</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
                 </div>
@@ -93,6 +85,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular-route.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/controllers/mainCtrl.js"></script>
         <script src="~/js/controllers/catalogs-ctrl/catalogCtrl.js"></script>
         <script src="~/js/controllers/catalogs-ctrl/createCatalogCtrl.js"></script>
         <script src="~/js/controllers/categories-ctrl/categoryCtrl.js"></script>
